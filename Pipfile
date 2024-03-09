@@ -10,6 +10,7 @@ pydantic = "*"
 openai = "*"
 requests = "*"
 gunicorn = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
