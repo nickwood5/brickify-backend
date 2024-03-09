@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-kh@2ev=9)(kn7ykl&$hm+@vhf+0@yq6ec%@v3wm#dn6v5)+g+x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["brickify-backend.onrender.com"]
 
 
 # Application definition
