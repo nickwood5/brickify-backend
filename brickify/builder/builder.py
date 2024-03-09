@@ -65,6 +65,13 @@ base = """
 
 """
 
+SUPPORTED_IMAGE_TYPES = {
+    "image/png",
+    "image/jpeg",
+    "image/gif",
+    "image/webp"
+}
+
 def encode_image(uploaded_file: UploadedFile):
     """
     This function takes a Django UploadedFile object,
@@ -75,8 +82,9 @@ def encode_image(uploaded_file: UploadedFile):
     file_content = uploaded_file.read()
     # Get MIME type from the UploadedFile object
     mime_type = uploaded_file.content_type
-    if not mime_type.startswith('image/'):
-        raise ValueError("Unsupported file type")
+    print(f"Mime_type is {mime_type}")
+    if mime_type not in SUPPORTED_IMAGE_TYPES:
+        raise ValueError("Unsupported image type")
     # Encode the file content to base64
     base64_encoded = base64.b64encode(file_content).decode('utf-8')
     return f"data:{mime_type};base64,{base64_encoded}"
