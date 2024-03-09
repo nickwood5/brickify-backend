@@ -223,7 +223,7 @@ class Builder:
                 all_pieces += get_component_string(*comp)
         from uuid import uuid4
         id = uuid4()
-        filename = f"{id}.ldr"
+        filename = f"brickify/generated_models/{id}.ldr"
 
         with open(f"{filename}", 'w') as file:
             # Join the array elements with a newline character and write to the file

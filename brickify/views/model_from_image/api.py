@@ -26,7 +26,7 @@ def build_model_from_image_url(request, image_url: ImageUrlIn):
 
 @model_from_image_router.get("/get_model/{uuid:model_id}")
 def get_model(request, model_id: str):
-    response = FileResponse(open(f"{model_id}.ldr", 'rb'), as_attachment=True, content_type='application/octet-stream')
+    response = FileResponse(open(f"brickify/generated_models/{model_id}.ldr", 'rb'), as_attachment=True, content_type='application/octet-stream')
     response['Content-Disposition'] = f'attachment; filename="{model_id}.ldr"'
 
     return response
