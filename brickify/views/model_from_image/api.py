@@ -11,13 +11,9 @@ model_from_image_router = Router()
 @model_from_image_router.post("/file/")
 def build_model_from_image_file(request, image_file: UploadedFile = File(...)):
     image_source_obj = ImageSource(image_file=image_file)
-    file_data = Builder(image_source_obj).build()
+    id = Builder(image_source_obj).build()
 
-    response = HttpResponse(file_data, content_type='application/octet-stream')
-    # Set the Content-Disposition header to prompt the user to save the file
-    response['Content-Disposition'] = 'attachment; filename="generated_file.ldr"'
-
-    return response
+    return {"model_id": id}
 
 
 @model_from_image_router.post("/url/")
