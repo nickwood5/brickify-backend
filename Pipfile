@@ -9,6 +9,7 @@ django-ninja = "*"
 pydantic = "*"
 openai = "*"
 requests = "*"
+gunicorn = "*"
 
 [dev-packages]
 
