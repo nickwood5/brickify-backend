@@ -6,6 +6,7 @@ import concurrent.futures
 from brickify.builder.styles import legs_style_options, facial_hair_style_options, arm_style_options, eyes_style_options, hair_style_options
 from brickify.builder.test import do
 import os
+import base64
 import json
 from brickify.builder.colours import Colour
 
@@ -64,7 +65,24 @@ base = """
 
 """
 
-class Builder:
+def encode_image(uploaded_file: UploadedFile):
+    """
+    This function takes a Django UploadedFile object,
+    reads its content, and encodes it to a base64 string
+    with the appropriate data URL prefix using the file's MIME type.
+    """
+    # Read the content of the uploaded file
+    file_content = uploaded_file.read()
+    # Get MIME type from the UploadedFile object
+    mime_type = uploaded_file.content_type
+    if not mime_type.startswith('image/'):
+        raise ValueError("Unsupported file type")
+    # Encode the file content to base64
+    base64_encoded = base64.b64encode(file_content).decode('utf-8')
+    return f"data:{mime_type};base64,{base64_encoded}"
+
+
+class ImageSource:
     def __init__(self, image_url: Optional[str]=None, image_file: Optional[UploadedFile]=None) -> None:
         if image_url is None and image_file is None:
             raise Exception("One of image_url or image_file must be provided")
@@ -78,6 +96,20 @@ class Builder:
         else:
             self.image_file = image_file
             self.building_mode = BuildingMode.FROM_IMAGE_FILE
+
+    def get_image_url(self):
+        if self.building_mode == BuildingMode.FROM_IMAGE_FILE:
+            base64_image = encode_image(self.image_file)
+            print(base64_image)
+            return base64_image
+    
+        elif BuildingMode.FROM_IMAGE_URL:
+            return self.image_url
+
+
+class Builder:
+    def __init__(self, image_source: ImageSource) -> None:
+        self.image_url = image_source.get_image_url()
 
         self.skin_colour = Colour.LIGHT_BEIGE
 

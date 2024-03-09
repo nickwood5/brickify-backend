@@ -118,7 +118,6 @@ class StyleOptions:
     def get_configured_style(self, image_url: str) -> Optional[ConfiguredStyle]:
         prompt = self.get_prompt()
 
-
         messages = [
             {
                 "type": "image_url",

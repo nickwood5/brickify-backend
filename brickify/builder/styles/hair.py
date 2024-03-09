@@ -5,45 +5,45 @@ class HairStyle(Style):
 
 very_short_curly = HairStyle(
     raw_name="very_short_curly",
-    components=["hair"],
+    components=["hair", "hair_top", "skull"],
 )
 
 bushy_hair_with_bangs__female = HairStyle(
     raw_name="bushy_hair_with_bangs__female",
-    components=["hair"],
+    components=["hair", "hair_top", "skull"],
 )
 
 bushy_hair_without_bangs__female = HairStyle(
     raw_name="bushy_hair_without_bangs__female",
-    components=["hair"],
+    components=["hair", "hair_top", "skull"],
 )
 
 marty_mcfly = HairStyle(
     raw_name="bushy_hair_without_bangs__female",
     prompt_name="Male short, wavy, tousled, 80s-style with pushed-back front (like Marty McFly)",
-    components=["hair"],
+    components=["hair", "hair_top", "skull"],
 )
 
 marty_mcfly = HairStyle(
     raw_name="doc_brown",
     prompt_name="Male shoulder-length, wild and unkempt style with wiry, white hair standing out in various directions (example: Doc Brown)",
-    components=["hair"],
+    components=["hair", "hair_top", "skull"],
 )
 
 elsa = HairStyle(
     raw_name="elsa",
     prompt_name="Female sleek, platinum blonde braid that sweeps over one shoulder, with a long, side-swept bang framing her face (example: Elsa)",
-    components=["hair"],
+    components=["hair", "hair_top", "skull"],
 )
 
 afro = HairStyle(
     raw_name="afro",
-    components=["hair"],
+    components=["hair", "hair_top", "skull"],
 )
 
 bald = HairStyle(
     raw_name="bald",
-    components=["hair"],
+    components=["hair", "hair_top", "skull"],
 )
 
 hair_styles = [

@@ -29,7 +29,7 @@ class OpenAIClient:
             #print(response)
             return response.choices[0].message.content
         except Exception as e:
-            #print(e)
+            print(e)
             pass
         return None
 
