@@ -223,3 +223,5 @@ class Builder:
             file.write(lines)
 
         print(f"Built {filename}")
+
+        return lines
