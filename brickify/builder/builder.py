@@ -221,3 +221,5 @@ class Builder:
             # Join the array elements with a newline character and write to the file
             lines = f"{base}\n" + "\n".join(all_pieces)
             file.write(lines)
+
+        print(f"Built {filename}")
