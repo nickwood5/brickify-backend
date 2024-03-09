@@ -3,7 +3,7 @@ from django.core.files.uploadedfile import UploadedFile
 from brickify.common.utils import AutoStringEnum
 from enum import auto
 import concurrent.futures
-from brickify.builder.styles import legs_style_options, facial_hair_style_options, arm_style_options, eyes_style_options
+from brickify.builder.styles import legs_style_options, facial_hair_style_options, arm_style_options, eyes_style_options, hair_style_options
 from brickify.builder.test import do
 import os
 import json
@@ -147,6 +147,16 @@ class Builder:
         call = (colours, "eyes", name)
         print("Finish resolving arms")
         return [call]
+    
+    def resolve_hair(self):
+        name, colours = hair_style_options.get_configured_style_config(self.image_url)
+
+        colours["skin"] = self.skin_colour
+
+        call = (colours, "hair", name)
+        print("Finish resolving arms")
+        return [call]
+
 
     def get_component_resolvers(self) -> list:
         return [
@@ -154,7 +164,8 @@ class Builder:
             self.resolve_facial_hair,
             self.resolve_arms,       
             self.resolve_torso, 
-            self.resolve_eyes
+            self.resolve_eyes,
+            self.resolve_hair
         ]
 
     def build(self):
