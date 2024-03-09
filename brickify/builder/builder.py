@@ -224,4 +224,4 @@ class Builder:
 
         print(f"Built {filename}")
 
-        return lines
+        return id
