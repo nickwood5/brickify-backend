@@ -16,7 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from ninja import NinjaAPI
+from brickify.views.model_from_image.api import model_from_image_router
+
+api = NinjaAPI()
+
+api.add_router("/model_from_image/", model_from_image_router)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("v1/", api.urls)
 ]
