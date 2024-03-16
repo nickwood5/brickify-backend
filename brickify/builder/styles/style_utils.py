@@ -158,7 +158,8 @@ class StyleOptions:
 
         style = self.style_code_mappings[style_key]
 
-
+    
+        print(f"Style for {self.name} is {style.prompt_name if style is not None else None}")
 
 
         if style is not None:
