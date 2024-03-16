@@ -11,6 +11,8 @@ openai = "*"
 requests = "*"
 gunicorn = "*"
 django-cors-headers = "*"
+mypy = "*"
+django-stubs = "*"
 
 [dev-packages]
 

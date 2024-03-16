@@ -9,7 +9,7 @@ very_short_curly = HairStyle(
     components=[
         Component(
             name="hair",
-            hidden_names="hair_top"
+            hidden_names={"hair_top"}
         ),
         Component(
             name="skull",
@@ -24,7 +24,7 @@ bushy_hair_with_bangs__female = HairStyle(
     components=[
         Component(
             name="hair",
-            hidden_names="hair_top"
+            hidden_names={"hair_top"}
         ),
         Component(
             name="skull",
@@ -39,7 +39,7 @@ bushy_hair_without_bangs__female = HairStyle(
     components=[
         Component(
             name="hair",
-            hidden_names="hair_top"
+            hidden_names={"hair_top"}
         ),
         Component(
             name="skull",
@@ -55,7 +55,7 @@ marty_mcfly = HairStyle(
     components=[
         Component(
             name="hair",
-            hidden_names="hair_top"
+            hidden_names={"hair_top"}
         ),
         Component(
             name="skull",
@@ -71,7 +71,7 @@ marty_mcfly = HairStyle(
     components=[
         Component(
             name="hair",
-            hidden_names="hair_top"
+            hidden_names={"hair_top"}
         ),
         Component(
             name="skull",
@@ -87,7 +87,7 @@ elsa = HairStyle(
     components=[
         Component(
             name="hair",
-            hidden_names="hair_top"
+            hidden_names={"hair_top"}
         ),
         Component(
             name="skull",
@@ -102,7 +102,7 @@ afro = HairStyle(
     components=[
         Component(
             name="hair",
-            hidden_names="hair_top"
+            hidden_names={"hair_top"}
         ),
         Component(
             name="skull",

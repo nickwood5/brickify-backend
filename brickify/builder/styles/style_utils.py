@@ -102,7 +102,7 @@ class ConfiguredComponent:
             self.colour_code = default_colour
             return
 
-
+        
         colour_code = COLOUR_MAPPINGS.get(component_colour)
 
         if colour_code is None:
@@ -134,9 +134,11 @@ class ConfiguredStyle:
 
         return {config.component_name: config.colour_code for config in self.configured_components}
 
+from typing import TypeVar
+StyleSubclass = TypeVar("StyleSubclass", bound=Style)
 
 class StyleOptions:
-    def __init__(self, styles: list[Style], name: str, none_option: Optional[str]=None, prefix: str="") -> None:
+    def __init__(self, styles: list[StyleSubclass], name: str, none_option: Optional[str]=None, prefix: str="") -> None:
         self.styles = styles
         self.none_option = none_option
         self.name = name
