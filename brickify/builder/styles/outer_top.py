@@ -17,42 +17,54 @@ closed_blazer = OuterTopStyle(
     raw_name="closed_blazer",
     prompt_name="Closed Blazer",
     inner_dependency_type=StyleDependencyType.REQUIRED,
-    components=["primary"]
+    components=[
+        "primary"
+    ]
 )
 
 open_blazer = OuterTopStyle(
     raw_name="open_blazer",
     prompt_name="Open Blazer",
     inner_dependency_type=StyleDependencyType.REQUIRED,
-    components=["blazer"]
+    components=[
+        "blazer"
+    ]
 )
 
 sweater = OuterTopStyle(
     raw_name="sweater",
     prompt_name="Sweater",
     inner_dependency_type=StyleDependencyType.NOT_REQUIRED,
-    components=["primary"]
+    components=[
+        "primary"
+    ]
 )
 
 sweater_with_shirt_showing = OuterTopStyle(
     raw_name="sweater_with_shirt_showing",
     prompt_name="Sweater with Shirt Showing",
     inner_dependency_type=StyleDependencyType.NOT_REQUIRED,
-    components=["primary", "shirt"]
+    components=[
+        "primary", "shirt"
+    ]
 )
 
 zip_hoodie = OuterTopStyle(
     raw_name="zip_hoodie",
     prompt_name="Zip Hoodie",
     inner_dependency_type=StyleDependencyType.OPTIONAL,
-    components=["primary"]
+    components=[
+        "primary"
+    ]
 )
 
 puffy_jacket = OuterTopStyle(
     raw_name="puffy_jacket",
     prompt_name="Puffy Jacket",
     inner_dependency_type=StyleDependencyType.OPTIONAL,
-    components=["primary", "zipper"]
+    components=[
+        "primary", "zipper"
+    ]
 )
 
 closed_cardigan = OuterTopStyle(

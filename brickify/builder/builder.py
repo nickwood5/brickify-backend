@@ -194,9 +194,14 @@ class Builder:
     def resolve_hair(self):
         name, colours = hair_style_options.get_configured_style_config(self.image_url)
 
+        hair_top = colours["hair"] if colours["hair"] is not None else None
 
+        if hair_top is not None:
+            colours["hair_top"] = hair_top
+
+        print("hair is " + name)
         call = (colours, "hair", name)
-        print("Finish resolving arms")
+        print("Finish resolving hair")
         return [call], ResolverType.COMPONENT
 
 

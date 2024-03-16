@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component
 
 class InnerTopStyle(Style):
     pass
@@ -7,71 +7,149 @@ class InnerTopStyle(Style):
 blank_shirt = InnerTopStyle(
     raw_name="blank_shirt",
     prompt_name="Blank Shirt",
-    components=["primary"]
+    components=[
+        Component(
+            name="primary",
+        )
+    ]
 )
 
 striped_shirt = InnerTopStyle(
     raw_name="striped_shirt",
     prompt_name="Striped Shirt with Equally Thin Stripes",
-    components=["stripe_1", "stripe_2"]
+    components=[
+        Component(
+            name="stripe_1",
+        ),
+        Component(
+            name="stripe_2",
+        ),
+    ]
 )
 
 thick_and_thin_striped_shirt = InnerTopStyle(
     raw_name="thick_striped_shirt",
     prompt_name="Striped Shirt with Thick and Thin Stripes",
-    components=["thick_stripe", "thin_stripe"]
+    components=[
+        Component(
+            name="thick_stripe",
+        ),
+        Component(
+            name="thin_stripe",
+        ),
+    ]
 )
 
 thick_striped_shirt = InnerTopStyle(
     raw_name="only_thick_striped_shirt",
     prompt_name="Striped Shirt with Equally Thick Stripes",
-    components=["stripe_1", "stripe_2"]
+    components=[
+        Component(
+            name="stripe_1",
+        ),
+        Component(
+            name="stripe_2",
+        ),
+    ]
 )
 
 blank_shirt_with_tie = InnerTopStyle(
     raw_name="blank_shirt_with_tie",
     prompt_name="Blank Shirt with Tie",
-    components=["primary", "tie"]
+    components=[
+        Component(
+            name="primary",
+        ),
+        Component(
+            name="tie",
+        ),
+    ]
 )
 
 blank_shirt_with_bow_tie = InnerTopStyle(
     raw_name="blank_shirt_with_bow_tie",
     prompt_name="Blank Shirt with Bow Tie",
-    components=["primary", "bow_tie"]
+    components=[
+        Component(
+            name="primary",
+        ),
+        Component(
+            name="bow_tie",
+        ),
+    ]
 )
 
 polka_dot_shirt = InnerTopStyle(
     raw_name="polka_dot_shirt",
     prompt_name="Polka Dot Shirt",
-    components=["primary", "dots"]
+    components=[
+        Component(
+            name="primary",
+        ),
+        Component(
+            name="dots",
+        ),
+    ]
 )
 
 button_up_shirt = InnerTopStyle(
     raw_name="button_up_shirt",
-    components=["buttons", "shirt"]
+    components=[
+        Component(
+            name="buttons",
+        ),
+        Component(
+            name="shirt",
+        ),
+    ]
 )
 
 striped_turtleneck = InnerTopStyle(
     raw_name="striped_turtleneck",
     prompt_name="Striped Turtleneck with Equally Thin Stripes",
-    components=["stripe_1", "stripe_2"]
+    components=[
+        Component(
+            name="stripe_1",
+        ),
+        Component(
+            name="stripe_2",
+        ),
+    ]
 )
 
 striped_crop_top = InnerTopStyle(
     raw_name="striped_crop_top",
     prompt_name="Striped Crop Top with Equally Thin Stripes",
-    components=["stripe_1", "stripe_2"]
+    components=[
+        Component(
+            name="stripe_1",
+        ),
+        Component(
+            name="stripe_2",
+        ),
+    ]
 )
 
 blank_crop_top = InnerTopStyle(
     raw_name="blank_crop_top",
-    components=["crop_top"]
+    components=[
+        Component(
+            name="crop_top",
+        ),
+    ]
 )
 
 pocket_blank_shirt = InnerTopStyle(
     raw_name="pocket_blank_shirt",
     prompt_name="T-Shirt with Pocket",
-    components=["shirt", "pocket"]
+    components=[
+        Component(
+            name="shirt",
+        ),
+        Component(
+            name="pocket",
+        ),
+    ]
 )
 
 

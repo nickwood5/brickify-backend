@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component
 
 class ArmStyle(Style):
     pass
@@ -6,14 +6,23 @@ class ArmStyle(Style):
 long_sleeves = ArmStyle(
     raw_name="long_sleeves",
     prompt_name="Long Sleeves",
-    components=["primary"],
+    components=[
+        Component(
+            name="primary"
+        )
+    ]
 )
 
 short_sleeves = ArmStyle(
     raw_name="short_sleeves",
     prompt_name="Short Sleeves",
-    components=["primary"],
+    components=[
+        Component(
+            name="primary"
+        )
+    ]
 )
+
 
 sleeveless = ArmStyle(
     raw_name="sleeveless",

@@ -2,22 +2,51 @@ from typing import Optional
 from brickify.builder.colours import COLOUR_MAPPINGS, valid_colours_string, Colour
 from brickify.builder.acc import client, Model
 import json
+from dataclasses import dataclass
+from typing import Union
+
+@dataclass
+class Component:
+    name: str
+    hidden_names: Optional[set[str]] = None
+    default_colour: Optional[Colour] = None
+    configurable: bool = True
+
+    def __post_init__(self) -> None:
+        if not self.configurable and self.default_colour is None:
+            raise Exception("Must provide default colour if component is not configurable")
+
 
 class Style:
-    def __init__(self, raw_name: str, components: list[str], is_null: bool=False,  prompt_name: Optional[str]=None, default_colours: Optional[dict]={}) -> None:
+    def __init__(self, raw_name: str, components: list[Union[Component, str]], is_null: bool=False,  prompt_name: Optional[str]=None) -> None:
         if prompt_name is None:
             prompt_name = ' '.join(word.capitalize() for word in raw_name.split('_'))
 
         self.raw_name = raw_name
         self.prompt_name = prompt_name
-        self.components = components
-        self.default_colours = default_colours
 
-        self.components_set = set(components)
+        cleaned_components = []
+        for component in components:
+            if isinstance(component, str):
+                component = Component(name=component)
+                
+            cleaned_components.append(component)
+
+
+
+        self.components = cleaned_components
+
+        
         self.is_null = is_null
 
+        self.configurable_components = [component.name for component in cleaned_components if component.configurable]
+        self.configurable_components_set = set(self.configurable_components) 
+        self.default_colours = {
+            component.name: component.default_colour for component in cleaned_components if component.default_colour is not None
+        }
+
     def to_string(self):
-        components_string = ", ".join(self.components)
+        components_string = ", ".join(self.configurable_components)
         return f"{self.prompt_name} ({components_string})"
     
 class ColourStyle:
@@ -123,18 +152,22 @@ class StyleOptions:
 
     def resolve_config(self, config: dict) -> Optional[ConfiguredStyle]:
         style_key = str(config["style"])
-        components = config["components"]
+        components = config["components"] if config["components"] is not None else {}
 
         style = self.style_code_mappings[style_key]
 
 
-        print(style.components_set)
-        print(style.components)
+
+
         if style is not None:
             if len(style.components) > 0:
                 config_components_set = set(components)
 
-                assert config_components_set == style.components_set
+                print(config_components_set, style.configurable_components_set)
+                
+                assert config_components_set == style.configurable_components_set
+
+                components.update(style.default_colours)
             return ConfiguredStyle(style, components)
 
         return None
@@ -198,3 +231,5 @@ class StyleOptions:
         colours = configured_style.to_colour_config()
 
         return configured_style.style.raw_name, colours
+    
+

@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component
 
 class FacialHairStyle(Style):
     pass
@@ -11,27 +11,37 @@ blank = FacialHairStyle(
 
 only_mustache = FacialHairStyle(
     raw_name="only_mustache",
-    components=["mustache"]
+    components=[
+        Component(name="mustache")
+    ]
 )
 
 archer_beard = FacialHairStyle(
     raw_name="archer_beard",
-    components=["beard"]
+    components=[
+        Component(name="beard")
+    ]
 )
 
 short_beard = FacialHairStyle(
     raw_name="short_beard",
-    components=["beard"]
+    components=[
+        Component(name="beard")
+    ]
 )
 
 medium_beard = FacialHairStyle(
     raw_name="medium_beard",
-    components=["beard"]
+    components=[
+        Component(name="beard")
+    ]
 )
 
 long_beard = FacialHairStyle(
     raw_name="long_beard",
-    components=["beard"]
+    components=[
+        Component(name="beard")
+    ]
 )
 
 facial_hair_styles = [
