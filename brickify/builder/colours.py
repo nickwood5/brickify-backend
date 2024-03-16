@@ -1,6 +1,5 @@
-from enum import Enum
 
-class Colour(Enum):
+class Colour:
     BLACK = 0
     LIGHT_BEIGE = 19
     DARK_BLUE = 272
