@@ -40,6 +40,15 @@ sweater = OuterTopStyle(
     ]
 )
 
+striped_sweater = OuterTopStyle(
+    raw_name="striped_shirt",
+    prompt_name="Striped Sweater",
+    inner_dependency_type=StyleDependencyType.NOT_REQUIRED,
+    components=[
+        "stripe_1", "stripe_2"
+    ]
+)
+
 sweater_with_shirt_showing = OuterTopStyle(
     raw_name="sweater_with_shirt_showing",
     prompt_name="Sweater with Shirt Showing",
@@ -89,7 +98,8 @@ outer_top_styles = [
     zip_hoodie,
     puffy_jacket,
     closed_cardigan,
-    open_cardigan
+    open_cardigan,
+    striped_sweater,
 ]
 
 outer_top_style_options = StyleOptions(outer_top_styles, none_option="None", prefix="O", name="outer_top")
