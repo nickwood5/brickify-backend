@@ -19,8 +19,53 @@ class Style:
     def to_string(self):
         components_string = ", ".join(self.components)
         return f"{self.prompt_name} ({components_string})"
+    
+class ColourStyle:
+    def __init__(self, description: str, colour_description_to_colour: dict[str, Colour]) -> None:
+        self.description = description
+        self.colour_description_to_colour = colour_description_to_colour
+
+    def get_prompt(self):
+        self.code_to_colour_description = {
+            f"{i+1}": colour_description for i, colour_description in enumerate(self.colour_description_to_colour.keys())
+        }
+
+        code_to_colour_description_list = [
+            f"{code}: {colour_description}" for code, colour_description in self.code_to_colour_description.items()
+        ]
+        colours_string = "\n".join(code_to_colour_description_list)
+
+        return f"""
+        Considering the image, choose the most appropriate colour for {self.description}.
+        The options are:
+
+        {colours_string}
+
+        Return only the code preceeding the colour with no explaination
+        """
+    
+    def get_configured_style(self, image_url: str):
+        prompt = self.get_prompt()
+
+        messages = [
+            {
+                "type": "image_url",
+                "image_url": {
+                    "url": image_url,
+                    "detail": "high",
+                }
+            },
+            {"type": "text", "text": prompt},
+        ]
+        response = client.get_response(messages, Model.GPT_4_VISION)
+
+        colour_description = self.code_to_colour_description[response]
+        return self.colour_description_to_colour[colour_description]
+
+        
 
 class ConfiguredComponent:
+    
     def __init__(self, default_colour: Colour, component_name: str, component_colour: str) -> None:
         self.component_name = component_name
 
@@ -82,6 +127,9 @@ class StyleOptions:
 
         style = self.style_code_mappings[style_key]
 
+
+        print(style.components_set)
+        print(style.components)
         if style is not None:
             if len(style.components) > 0:
                 config_components_set = set(components)
@@ -130,10 +178,13 @@ class StyleOptions:
         ]
         response = client.get_response(messages, Model.GPT_4_VISION)
 
+        print(prompt)
         if response.startswith("```json"):
             response = response.lstrip("```json").rstrip("```")
 
         config = json.loads(response)
+
+        print(f"Config for {self.name}: {config}")
 
         configured_style = self.resolve_config(config)
 

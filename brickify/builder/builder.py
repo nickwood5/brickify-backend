@@ -3,7 +3,7 @@ from django.core.files.uploadedfile import UploadedFile
 from brickify.common.utils import AutoStringEnum
 from enum import auto
 import concurrent.futures
-from brickify.builder.styles import legs_style_options, facial_hair_style_options, arm_style_options, eyes_style_options, hair_style_options
+from brickify.builder.styles import skin_colour_options, legs_style_options, facial_hair_style_options, arm_style_options, eyes_style_options, hair_style_options
 from brickify.builder.test import do
 import os
 import base64
@@ -13,6 +13,10 @@ from brickify.builder.colours import Colour
 class BuildingMode(AutoStringEnum):
     FROM_IMAGE_FILE = auto()
     FROM_IMAGE_URL = auto()
+
+class ResolverType(AutoStringEnum):
+    COMPONENT = auto()
+    GLOBAL_COLOUR = auto()
 
 import os
 from collections import defaultdict
@@ -119,16 +123,19 @@ class Builder:
     def __init__(self, image_source: ImageSource) -> None:
         self.image_url = image_source.get_image_url()
 
-        self.skin_colour = Colour.LIGHT_BEIGE
+
+    def resolve_skin_colour(self):
+        skin_colour = skin_colour_options.get_configured_style(self.image_url)
+
+        return {"skin": skin_colour}, ResolverType.GLOBAL_COLOUR
 
     def resolve_legs(self):
         name, colours = legs_style_options.get_configured_style_config(self.image_url)
 
-        colours["skin"] = self.skin_colour
 
         call = (colours, "legs", name)
 
-        return [call]
+        return [call], ResolverType.COMPONENT
     
     def resolve_facial_hair(self):
         print("Start resolving facial hair")
@@ -136,21 +143,20 @@ class Builder:
         if name is None:
             return []
 
-        colours["skin"] = self.skin_colour
         call = (colours, "lower_face", name)
         #print(call)
         print("Finish resolving facial hair")
-        return [call]
+        return [call], ResolverType.COMPONENT
     
     def resolve_arms(self):
         print("Start resolving arms")
         name, colours = arm_style_options.get_configured_style_config(self.image_url)
 
-        colours["skin"] = self.skin_colour
+
 
         call = (colours, "arms", name)
         print("Finish resolving arms")
-        return [call]
+        return [call], ResolverType.COMPONENT
 
 
 
@@ -164,7 +170,6 @@ class Builder:
         configs = []
         if inner_top_colours is not None:
             inner_top_colours["arm_connector"] = Colour.BLACK
-            inner_top_colours["skin"] = self.skin_colour
             inner_top_colours["pin"] = Colour.BLACK
             configs.append((inner_top_colours, "torso", inner_top_name))
 
@@ -173,29 +178,26 @@ class Builder:
 
         if outer_top_name:
             outer_top_colours["arm_connector"] = Colour.BLACK
-            outer_top_colours["skin"] = self.skin_colour
             configs.append((outer_top_colours, "torso", outer_top_name))
 
         print("Finish resolving torso")
-        return configs
+        return configs, ResolverType.COMPONENT
     
     def resolve_eyes(self):
         name, colours = eyes_style_options.get_configured_style_config(self.image_url)
 
-        colours["skin"] = self.skin_colour
 
         call = (colours, "eyes", name)
         print("Finish resolving arms")
-        return [call]
+        return [call], ResolverType.COMPONENT
     
     def resolve_hair(self):
         name, colours = hair_style_options.get_configured_style_config(self.image_url)
 
-        colours["skin"] = self.skin_colour
 
         call = (colours, "hair", name)
         print("Finish resolving arms")
-        return [call]
+        return [call], ResolverType.COMPONENT
 
 
     def get_component_resolvers(self) -> list:
@@ -205,7 +207,8 @@ class Builder:
             self.resolve_arms,       
             self.resolve_torso, 
             self.resolve_eyes,
-            self.resolve_hair
+            self.resolve_hair,
+            self.resolve_skin_colour,
         ]
 
     def build(self):
@@ -216,11 +219,23 @@ class Builder:
             results = [future.result() for future in futures]
 
         all_pieces = []
-        for components in results:
+
+
+        global_colours = dict()
+
+        call_args_list = []
+        for components, resolver_type in results:
+            if resolver_type == ResolverType.GLOBAL_COLOUR:
+                global_colours.update(components)
+                continue
             for comp in components:
+                call_args_list.append(comp)
                 print(comp)
                 #print(components)
-                all_pieces += get_component_string(*comp)
+
+        for colour_mapping, component_type, name in call_args_list:
+            colour_mapping.update(global_colours)
+            all_pieces += get_component_string(colour_mapping, component_type, name)
         from uuid import uuid4
         id = uuid4()
         filename = f"brickify/generated_models/{id}.ldr"
