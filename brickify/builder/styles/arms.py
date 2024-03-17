@@ -36,4 +36,4 @@ arm_styles = [
     sleeveless,
 ]
 
-arm_style_options = StyleOptions(arm_styles, name="arm")
+arm_style_options = StyleOptions(arm_styles, name="arms")
