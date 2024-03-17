@@ -145,7 +145,7 @@ class Builder:
         if name is None:
             return []
 
-        call = (colours, "lower_face", name)
+        call = (colours, "facial_hair", name)
         #print(call)
         print("Finish resolving facial hair")
         return [call], ResolverType.COMPONENT
