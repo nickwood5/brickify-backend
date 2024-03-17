@@ -1,5 +1,7 @@
 from brickify.common.utils import AutoStringEnum
-from brickify.builder.styles.style_utils import Style, StyleOptions
+from brickify.builder.colours import Colour
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component
+from brickify.builder.styles.inner_top import inner_top_style_options
 from enum import auto
 
 class StyleDependencyType(AutoStringEnum):
@@ -18,7 +20,11 @@ closed_blazer = OuterTopStyle(
     prompt_name="Closed Blazer",
     inner_dependency_type=StyleDependencyType.REQUIRED,
     components=[
-        "primary"
+        "primary", Component(
+            name="arm_connector",
+            configurable=False,
+            default_colour=Colour.BLACK
+        )
     ]
 )
 
@@ -27,7 +33,11 @@ open_blazer = OuterTopStyle(
     prompt_name="Open Blazer",
     inner_dependency_type=StyleDependencyType.REQUIRED,
     components=[
-        "blazer"
+        "blazer", Component(
+            name="arm_connector",
+            configurable=False,
+            default_colour=Colour.BLACK
+        )
     ]
 )
 
