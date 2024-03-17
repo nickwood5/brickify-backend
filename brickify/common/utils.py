@@ -8,3 +8,7 @@ def get_json(file_path):
 class AutoStringEnum(Enum):
     def _generate_next_value_(name, start, count, last_values):
         return name
+    
+class LowerAutoStringEnum(Enum):
+    def _generate_next_value_(name, start, count, last_values):
+        return name

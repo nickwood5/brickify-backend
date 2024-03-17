@@ -1,6 +1,6 @@
 from brickify.common.utils import AutoStringEnum
 from brickify.builder.colours import Colour
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleType
 from brickify.builder.styles.inner_top import inner_top_style_options
 from enum import auto
 
@@ -112,4 +112,4 @@ outer_top_styles = [
     striped_sweater,
 ]
 
-outer_top_style_options = StyleOptions(outer_top_styles, none_option="None", prefix="O", name="outer_top")
+outer_top_style_options = StyleOptions(outer_top_styles, none_option="None", prefix="O", name=StyleType.OUTER_TOP)

@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleType
 
 class InnerTopStyle(Style):
     pass
@@ -168,4 +168,4 @@ inner_top_styles = [
     thick_striped_shirt
 ]
 
-inner_top_style_options = StyleOptions(inner_top_styles, none_option="Not Visible", prefix="I", name="inner_top")
+inner_top_style_options = StyleOptions(inner_top_styles, none_option="Not Visible", prefix="I", name=StyleType.INNER_TOP)

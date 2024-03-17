@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleType
 from brickify.builder.colours import Colour
 
 class EyesStyle(Style):
@@ -23,4 +23,4 @@ eyes_styles = [
     blank,
 ]
 
-eyes_style_options = StyleOptions(eyes_styles, name="eyes")
+eyes_style_options = StyleOptions(eyes_styles, name=StyleType.EYES)

@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleType
 
 class FacialHairStyle(Style):
     pass
@@ -53,4 +53,4 @@ facial_hair_styles = [
     long_beard
 ]
 
-facial_hair_style_options = StyleOptions(facial_hair_styles, name="facial_hair")
+facial_hair_style_options = StyleOptions(facial_hair_styles, name=StyleType.FACIAL_HAIR)

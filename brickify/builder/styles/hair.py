@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleType
 from brickify.builder.colours import Colour
 
 class HairStyle(Style):
@@ -127,4 +127,4 @@ hair_styles = [
     bald
 ]
 
-hair_style_options = StyleOptions(hair_styles, name="hair")
+hair_style_options = StyleOptions(hair_styles, name=StyleType.HAIR)

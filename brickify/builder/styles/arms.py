@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleType
 
 class ArmStyle(Style):
     pass
@@ -36,4 +36,4 @@ arm_styles = [
     sleeveless,
 ]
 
-arm_style_options = StyleOptions(arm_styles, name="arms")
+arm_style_options = StyleOptions(arm_styles, name=StyleType.ARMS)

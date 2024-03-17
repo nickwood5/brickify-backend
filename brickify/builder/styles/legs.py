@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleType
 from brickify.builder.colours import Colour
 
 class LegsStyle(Style):
@@ -29,5 +29,5 @@ legs_styles = [
 
 legs_style_options = StyleOptions(
     styles=legs_styles,
-    name="legs"
+    name=StyleType.LEGS
 )

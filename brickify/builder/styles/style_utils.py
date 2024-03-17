@@ -4,6 +4,21 @@ from brickify.builder.acc import client, Model
 import json
 from dataclasses import dataclass
 from typing import Union
+from brickify.common.utils import LowerAutoStringEnum
+from enum import auto
+
+
+class StyleType(LowerAutoStringEnum):
+    ARMS = auto()
+    EYES = auto()
+    FACIAL_HAIR = auto()
+    HAIR = auto()
+    INNER_TOP = auto()
+    LEGS = auto()
+    OUTER_TOP = auto()
+
+
+
 
 @dataclass
 class Component:
@@ -138,7 +153,7 @@ from typing import TypeVar
 StyleSubclass = TypeVar("StyleSubclass", bound=Style)
 
 class StyleOptions:
-    def __init__(self, styles: list[StyleSubclass], name: str, none_option: Optional[str]=None, prefix: str="") -> None:
+    def __init__(self, styles: list[StyleSubclass], name: StyleType, none_option: Optional[str]=None, prefix: str="") -> None:
         self.styles = styles
         self.none_option = none_option
         self.name = name
