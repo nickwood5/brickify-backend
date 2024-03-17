@@ -7,6 +7,7 @@ from brickify.builder.styles import skin_colour_options, legs_style_options, fac
 from brickify.builder.test import do
 import os
 import base64
+from brickify.builder.utils import load_json_from_folders
 import json
 from brickify.builder.colours import Colour
 
@@ -18,13 +19,16 @@ class ResolverType(AutoStringEnum):
     COMPONENT = auto()
     GLOBAL_COLOUR = auto()
 
+
 import os
 from collections import defaultdict
+import json
 
 def load_json_from_folders(main_folder):
     # Iterate through all items in the main folder
-    res = defaultdict(dict)
+    res = dict()
     for item in os.listdir(main_folder):
+        res[item] = dict()
         item_path = os.path.join(main_folder, item)
         # Check if the item is a folder
         if os.path.isdir(item_path):
@@ -36,18 +40,16 @@ def load_json_from_folders(main_folder):
                     with open(sub_item_path, 'r') as file:
                         data = json.load(file)
                     res[item][os.path.basename(sub_item_path)[:-5]] = data
+
+    
     return res
 
-
-# Replace 'path_to_main_folder' with the path to your main folder
-# print_contents_of_files_in_subfolders('path
-
 json_files_content = load_json_from_folders("brickify/builder/schematics")
-print(f"The content is {json_files_content}")
+
+print(json_files_content)
 
 def get_component_string(colour_mapping, component_type, name):
-    print(json_files_content.keys())
-    print(json_files_content[component_type].keys())
+
     lookup = json_files_content[component_type][name]
 
     all_pieces = []
