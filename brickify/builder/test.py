@@ -69,14 +69,14 @@ def do(image_url):
         assert outer_top_configured_style.style.inner_dependency_type is not StyleDependencyType.REQUIRED
         inner_top_name, inner_top_colours = None, None
     else:
-        inner_top_name = inner_top_configured_style.style.raw_name
+        inner_top_name = inner_top_configured_style.style.source
         inner_top_colours = {config.component_name: config.colour_code for config in inner_top_configured_style.configured_components}
 
     outer_top_name = None
     outer_top_colours = None
 
     if outer_top_configured_style is not None:
-        outer_top_name = outer_top_configured_style.style.raw_name
+        outer_top_name = outer_top_configured_style.style.source
         if inner_top_name is not None:
             inner_top_name += "__inner_only"
         elif outer_top_configured_style.style.inner_dependency_type is StyleDependencyType.OPTIONAL:

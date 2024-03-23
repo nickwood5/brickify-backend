@@ -5,14 +5,14 @@ class EyesStyle(Style):
     pass
 
 glasses = EyesStyle(
-    raw_name="glasses",
+    source="glasses",
     components=[
         Component(name="primary")
     ]
 )
 
 blank = EyesStyle(
-    raw_name="blank",
+    source="blank",
     components=[
         Component(name="eyes", default_colour=Colour.BLACK, configurable=False)
     ]

@@ -16,7 +16,7 @@ class OuterTopStyle(Style):
 
 
 closed_blazer = OuterTopStyle(
-    raw_name="closed_blazer",
+    source="closed_blazer",
     prompt_name="Closed Blazer",
     inner_dependency_type=StyleDependencyType.REQUIRED,
     components=[
@@ -29,7 +29,7 @@ closed_blazer = OuterTopStyle(
 )
 
 open_blazer = OuterTopStyle(
-    raw_name="open_blazer",
+    source="open_blazer",
     prompt_name="Open Blazer",
     inner_dependency_type=StyleDependencyType.REQUIRED,
     components=[
@@ -42,7 +42,7 @@ open_blazer = OuterTopStyle(
 )
 
 sweater = OuterTopStyle(
-    raw_name="sweater",
+    source="sweater",
     prompt_name="Sweater",
     inner_dependency_type=StyleDependencyType.NOT_REQUIRED,
     components=[
@@ -51,7 +51,7 @@ sweater = OuterTopStyle(
 )
 
 striped_sweater = OuterTopStyle(
-    raw_name="striped_shirt",
+    source="striped_shirt",
     prompt_name="Striped Sweater",
     inner_dependency_type=StyleDependencyType.NOT_REQUIRED,
     components=[
@@ -60,7 +60,7 @@ striped_sweater = OuterTopStyle(
 )
 
 sweater_with_shirt_showing = OuterTopStyle(
-    raw_name="sweater_with_shirt_showing",
+    source="sweater_with_shirt_showing",
     prompt_name="Sweater with Shirt Showing",
     inner_dependency_type=StyleDependencyType.NOT_REQUIRED,
     components=[
@@ -69,7 +69,7 @@ sweater_with_shirt_showing = OuterTopStyle(
 )
 
 zip_hoodie = OuterTopStyle(
-    raw_name="zip_hoodie",
+    source="zip_hoodie",
     prompt_name="Zip Hoodie",
     inner_dependency_type=StyleDependencyType.OPTIONAL,
     components=[
@@ -78,7 +78,7 @@ zip_hoodie = OuterTopStyle(
 )
 
 puffy_jacket = OuterTopStyle(
-    raw_name="puffy_jacket",
+    source="puffy_jacket",
     prompt_name="Puffy Jacket",
     inner_dependency_type=StyleDependencyType.OPTIONAL,
     components=[
@@ -87,15 +87,21 @@ puffy_jacket = OuterTopStyle(
 )
 
 closed_cardigan = OuterTopStyle(
-    raw_name="closed_cardigan",
+    source="closed_cardigan",
     inner_dependency_type=StyleDependencyType.REQUIRED,
     components=["cardigan"]
 )
 
 open_cardigan = OuterTopStyle(
-    raw_name="open_cardigan",
+    source="open_cardigan",
     inner_dependency_type=StyleDependencyType.REQUIRED,
     components=["cardigan"]
+)
+
+none = OuterTopStyle(
+    source=None,
+    prompt_name="None",
+    inner_dependency_type=StyleDependencyType.REQUIRED,
 )
 
 
@@ -110,6 +116,7 @@ outer_top_styles = [
     closed_cardigan,
     open_cardigan,
     striped_sweater,
+    none,
 ]
 
-outer_top_style_options = StyleOptions(outer_top_styles, none_option="None", prefix="O", name=StyleType.OUTER_TOP)
+outer_top_style_options = StyleOptions(outer_top_styles, prefix="O", name=StyleType.OUTER_TOP)

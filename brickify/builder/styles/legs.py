@@ -5,7 +5,7 @@ class LegsStyle(Style):
     pass
 
 long_pants = LegsStyle(
-    raw_name="long_pants",
+    source="long_pants",
     components=[
         Component(
             name="primary"
@@ -17,7 +17,7 @@ long_pants = LegsStyle(
 )
 
 short_pants = LegsStyle(
-    raw_name="shorts",
+    source="shorts",
     components = ["primary", "shoes"]
     
 )

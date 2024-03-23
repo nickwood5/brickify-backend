@@ -5,7 +5,7 @@ class InnerTopStyle(Style):
 
 
 blank_shirt = InnerTopStyle(
-    raw_name="blank_shirt",
+    source="blank_shirt",
     prompt_name="Blank Shirt",
     components=[
         Component(
@@ -15,7 +15,7 @@ blank_shirt = InnerTopStyle(
 )
 
 striped_shirt = InnerTopStyle(
-    raw_name="striped_shirt",
+    source="striped_shirt",
     prompt_name="Striped Shirt with Equally Thin Stripes",
     components=[
         Component(
@@ -28,7 +28,7 @@ striped_shirt = InnerTopStyle(
 )
 
 thick_and_thin_striped_shirt = InnerTopStyle(
-    raw_name="thick_striped_shirt",
+    source="thick_striped_shirt",
     prompt_name="Striped Shirt with Thick and Thin Stripes",
     components=[
         Component(
@@ -41,7 +41,7 @@ thick_and_thin_striped_shirt = InnerTopStyle(
 )
 
 thick_striped_shirt = InnerTopStyle(
-    raw_name="only_thick_striped_shirt",
+    source="only_thick_striped_shirt",
     prompt_name="Striped Shirt with Equally Thick Stripes",
     components=[
         Component(
@@ -54,7 +54,7 @@ thick_striped_shirt = InnerTopStyle(
 )
 
 blank_shirt_with_tie = InnerTopStyle(
-    raw_name="blank_shirt_with_tie",
+    source="blank_shirt_with_tie",
     prompt_name="Blank Shirt with Tie",
     components=[
         Component(
@@ -67,7 +67,7 @@ blank_shirt_with_tie = InnerTopStyle(
 )
 
 blank_shirt_with_bow_tie = InnerTopStyle(
-    raw_name="blank_shirt_with_bow_tie",
+    source="blank_shirt_with_bow_tie",
     prompt_name="Blank Shirt with Bow Tie",
     components=[
         Component(
@@ -80,7 +80,7 @@ blank_shirt_with_bow_tie = InnerTopStyle(
 )
 
 polka_dot_shirt = InnerTopStyle(
-    raw_name="polka_dot_shirt",
+    source="polka_dot_shirt",
     prompt_name="Polka Dot Shirt",
     components=[
         Component(
@@ -93,7 +93,7 @@ polka_dot_shirt = InnerTopStyle(
 )
 
 button_up_shirt = InnerTopStyle(
-    raw_name="button_up_shirt",
+    source="button_up_shirt",
     components=[
         Component(
             name="buttons",
@@ -105,7 +105,7 @@ button_up_shirt = InnerTopStyle(
 )
 
 striped_turtleneck = InnerTopStyle(
-    raw_name="striped_turtleneck",
+    source="striped_turtleneck",
     prompt_name="Striped Turtleneck with Equally Thin Stripes",
     components=[
         Component(
@@ -118,7 +118,7 @@ striped_turtleneck = InnerTopStyle(
 )
 
 striped_crop_top = InnerTopStyle(
-    raw_name="striped_crop_top",
+    source="striped_crop_top",
     prompt_name="Striped Crop Top with Equally Thin Stripes",
     components=[
         Component(
@@ -131,7 +131,7 @@ striped_crop_top = InnerTopStyle(
 )
 
 blank_crop_top = InnerTopStyle(
-    raw_name="blank_crop_top",
+    source="blank_crop_top",
     components=[
         Component(
             name="crop_top",
@@ -140,7 +140,7 @@ blank_crop_top = InnerTopStyle(
 )
 
 pocket_blank_shirt = InnerTopStyle(
-    raw_name="pocket_blank_shirt",
+    source="pocket_blank_shirt",
     prompt_name="T-Shirt with Pocket",
     components=[
         Component(
@@ -150,6 +150,11 @@ pocket_blank_shirt = InnerTopStyle(
             name="pocket",
         ),
     ]
+)
+
+not_visisble = InnerTopStyle(
+    source=None,
+    prompt_name="Not Visible"
 )
 
 
@@ -168,4 +173,4 @@ inner_top_styles = [
     thick_striped_shirt
 ]
 
-inner_top_style_options = StyleOptions(inner_top_styles, none_option="Not Visible", prefix="I", name=StyleType.INNER_TOP)
+inner_top_style_options = StyleOptions(inner_top_styles, prefix="I", name=StyleType.INNER_TOP)

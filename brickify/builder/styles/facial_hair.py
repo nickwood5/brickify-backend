@@ -5,40 +5,40 @@ class FacialHairStyle(Style):
 
 
 blank = FacialHairStyle(
-    raw_name="none",
+    source="none",
     components=[]
 )
 
 only_mustache = FacialHairStyle(
-    raw_name="only_mustache",
+    source="only_mustache",
     components=[
         Component(name="mustache")
     ]
 )
 
 archer_beard = FacialHairStyle(
-    raw_name="archer_beard",
+    source="archer_beard",
     components=[
         Component(name="beard")
     ]
 )
 
 short_beard = FacialHairStyle(
-    raw_name="short_beard",
+    source="short_beard",
     components=[
         Component(name="beard")
     ]
 )
 
 medium_beard = FacialHairStyle(
-    raw_name="medium_beard",
+    source="medium_beard",
     components=[
         Component(name="beard")
     ]
 )
 
 long_beard = FacialHairStyle(
-    raw_name="long_beard",
+    source="long_beard",
     components=[
         Component(name="beard")
     ]

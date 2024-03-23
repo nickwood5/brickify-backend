@@ -4,7 +4,7 @@ class ArmStyle(Style):
     pass
 
 long_sleeves = ArmStyle(
-    raw_name="long_sleeves",
+    source="long_sleeves",
     prompt_name="Long Sleeves",
     components=[
         Component(
@@ -14,7 +14,7 @@ long_sleeves = ArmStyle(
 )
 
 short_sleeves = ArmStyle(
-    raw_name="short_sleeves",
+    source="short_sleeves",
     prompt_name="Short Sleeves",
     components=[
         Component(
@@ -25,7 +25,7 @@ short_sleeves = ArmStyle(
 
 
 sleeveless = ArmStyle(
-    raw_name="sleeveless",
+    source="sleeveless",
     prompt_name="Sleeveless",
     components=[],
 )

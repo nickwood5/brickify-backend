@@ -5,7 +5,7 @@ class HairStyle(Style):
     pass
 
 very_short_curly = HairStyle(
-    raw_name="very_short_curly",
+    source="very_short_curly",
     components=[
         Component(
             name="hair",
@@ -20,7 +20,7 @@ very_short_curly = HairStyle(
 )
 
 bushy_hair_with_bangs__female = HairStyle(
-    raw_name="bushy_hair_with_bangs__female",
+    source="bushy_hair_with_bangs__female",
     components=[
         Component(
             name="hair",
@@ -35,7 +35,7 @@ bushy_hair_with_bangs__female = HairStyle(
 )
 
 bushy_hair_without_bangs__female = HairStyle(
-    raw_name="bushy_hair_without_bangs__female",
+    source="bushy_hair_without_bangs__female",
     components=[
         Component(
             name="hair",
@@ -50,7 +50,7 @@ bushy_hair_without_bangs__female = HairStyle(
 )
 
 marty_mcfly = HairStyle(
-    raw_name="marty_mcfly",
+    source="marty_mcfly",
     prompt_name="Male short, wavy, tousled, 80s-style with pushed-back front (like Marty McFly)",
     components=[
         Component(
@@ -66,7 +66,7 @@ marty_mcfly = HairStyle(
 )
 
 marty_mcfly = HairStyle(
-    raw_name="doc_brown",
+    source="doc_brown",
     prompt_name="Male shoulder-length, wild and unkempt style with wiry, white hair standing out in various directions (example: Doc Brown)",
     components=[
         Component(
@@ -82,7 +82,7 @@ marty_mcfly = HairStyle(
 )
 
 elsa = HairStyle(
-    raw_name="elsa",
+    source="elsa",
     prompt_name="Female sleek, platinum blonde braid that sweeps over one shoulder, with a long, side-swept bang framing her face (example: Elsa)",
     components=[
         Component(
@@ -98,7 +98,7 @@ elsa = HairStyle(
 )
 
 afro = HairStyle(
-    raw_name="afro",
+    source="afro",
     components=[
         Component(
             name="hair",
@@ -113,7 +113,7 @@ afro = HairStyle(
 )
 
 bald = HairStyle(
-    raw_name="bald",
+    source="bald",
     components=[]
 )
 

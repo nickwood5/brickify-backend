@@ -33,12 +33,20 @@ class Component:
 
 
 class Style:
-    def __init__(self, raw_name: str, components: list[Union[Component, str]], is_null: bool=False,  prompt_name: Optional[str]=None) -> None:
+    def __init__(self, source: Optional[str], components: Optional[list[Union[Component, str]]] = None, is_null: bool=False,  prompt_name: Optional[str]=None) -> None:
         if prompt_name is None:
-            prompt_name = ' '.join(word.capitalize() for word in raw_name.split('_'))
+            prompt_name = ' '.join(word.capitalize() for word in source.split('_'))
 
-        self.raw_name = raw_name
+        self.source = source
         self.prompt_name = prompt_name
+        self.is_null = is_null
+        
+        if source is None and components is not None:
+            raise Exception("components should not be provided if source is None")
+
+        if components is None:
+            self.string = f"{self.prompt_name}"
+            return
 
         cleaned_components = []
         for component in components:
@@ -52,17 +60,19 @@ class Style:
         self.components = cleaned_components
 
         
-        self.is_null = is_null
+       
 
         self.configurable_components = [component.name for component in cleaned_components if component.configurable]
         self.configurable_components_set = set(self.configurable_components) 
         self.default_colours = {
             component.name: component.default_colour for component in cleaned_components if component.default_colour is not None
-        }
+        }#
+
+        components_string = ", ".join(self.configurable_components)
+        self.string = f"{self.prompt_name} ({components_string})"
 
     def to_string(self):
-        components_string = ", ".join(self.configurable_components)
-        return f"{self.prompt_name} ({components_string})"
+        return self.string
     
 class ColourStyle:
     def __init__(self, description: str, colour_description_to_colour: dict[str, Colour]) -> None:
@@ -153,17 +163,12 @@ from typing import TypeVar
 StyleSubclass = TypeVar("StyleSubclass", bound=Style)
 
 class StyleOptions:
-    def __init__(self, styles: list[StyleSubclass], name: StyleType, none_option: Optional[str]=None, prefix: str="") -> None:
+    def __init__(self, styles: list[StyleSubclass], name: StyleType, prefix: str="") -> None:
         self.styles = styles
-        self.none_option = none_option
         self.name = name
 
         all_styles = [style.to_string() for style in styles]
-
-        if none_option is not None:
-            all_styles.insert(0, none_option)
-            styles.insert(0, None)
-
+       
         self.style_codes = {f"{prefix}{i+1}": style for i, style in enumerate(all_styles)}
         self.style_code_mappings = {f"{prefix}{i+1}": style for i, style in enumerate(styles)}
 
@@ -177,7 +182,7 @@ class StyleOptions:
         print(f"Style for {self.name} is {style.prompt_name if style is not None else None}")
 
 
-        if style is not None:
+        if style.source is not None:
             if len(style.components) > 0:
                 config_components_set = set(components)
 
@@ -248,6 +253,6 @@ class StyleOptions:
             return None, None
         colours = configured_style.to_colour_config()
 
-        return configured_style.style.raw_name, colours
+        return configured_style.style.source, colours
     
 

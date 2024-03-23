@@ -29,12 +29,12 @@ for style_type, default_style in style_type_to_default.items():
         print(comp.name)
         colour_mapping[comp.name] = Colour.BLACK
 
-    raw_name = default_style.raw_name
+    source = default_style.source
 
     path = style_type
     print(style_type)
     if style_type == inner_top_style_options.name:
-        raw_name += "__inner_only"
+        source += "__inner_only"
         path = "torso"
 
     elif style_type == outer_top_style_options.name:
@@ -42,7 +42,7 @@ for style_type, default_style in style_type_to_default.items():
 
     
     print(colour_mapping)
-    component_string = get_component_string(colour_mapping, path, raw_name)
+    component_string = get_component_string(colour_mapping, path, source)
 
     print(component_string)
 
@@ -83,7 +83,7 @@ for style_type in style_types:
     for style in style_type.styles:
         if style is None:
             continue
-        print(style.raw_name)
-        with open(f"{folder_path}/{style.raw_name}.ldr", 'w') as file:
+        print(style.source)
+        with open(f"{folder_path}/{style.source}.ldr", 'w') as file:
             # Write the content to the file
             file.write(base_style_str)
