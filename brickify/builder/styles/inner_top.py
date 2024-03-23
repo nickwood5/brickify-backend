@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName, StyleOverride, StyleOverrideCondition, StyleOverrideEffect
 
 class InnerTopStyle(Style):
     def __init__(self, **kwargs):
@@ -25,7 +25,13 @@ striped_shirt = InnerTopStyle(
         Component(
             name="stripe_2",
         ),
-    ]
+    ],
+    override=StyleOverride(
+        style_type=StyleName.OUTER_TOP,
+        condition=StyleOverrideCondition.IS,
+        effect=StyleOverrideEffect.DELETE,
+        value={"striped_shirt"}
+    )
 )
 
 thick_and_thin_striped_shirt = InnerTopStyle(
@@ -38,7 +44,14 @@ thick_and_thin_striped_shirt = InnerTopStyle(
         Component(
             name="thin_stripe",
         ),
-    ]
+    ],
+    override=StyleOverride(
+        style_type=StyleName.OUTER_TOP,
+        condition=StyleOverrideCondition.IS,
+        effect=StyleOverrideEffect.DELETE,
+        value={"striped_shirt"}
+    )
+    
 )
 
 thick_striped_shirt = InnerTopStyle(

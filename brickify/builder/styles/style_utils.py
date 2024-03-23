@@ -21,6 +21,11 @@ class StyleName(LowerAutoStringEnum):
 
 class StyleOverrideCondition(AutoStringEnum):
     IS_NOT = auto()
+    IS = auto()
+
+class StyleOverrideEffect(AutoStringEnum):
+    ADD_SUFFIX = auto()
+    DELETE = auto()
 
 class ComponentConfigurationMode(AutoStringEnum):
     STATIC = auto() # Colour is specified in component configuration
@@ -32,8 +37,14 @@ class ComponentConfigurationMode(AutoStringEnum):
 class StyleOverride:
     style_type: StyleName
     condition: StyleOverrideCondition
-    value: str
-    suffix_added: str
+    effect: StyleOverrideEffect
+    value: set[str]
+    suffix_added: Optional[str]=None
+
+    def __post_init__(self) -> None:
+        if self.effect == StyleOverrideEffect.ADD_SUFFIX and self.suffix_added is None:
+            raise Exception("Must provide suffix_added if effect is ADD_SUFFIX")
+
 
 
 @dataclass
@@ -121,7 +132,7 @@ class Style:
 
         res = []
 
-        res.append(f"0 Type: {self.name}, Source: {self.source}")
+        res.append(f"0 Type: {self.name}, Source: {self.prompt_name}")
 
         print(f"global colours are {global_colours}")
         for component_name in self.configurable_component_names:

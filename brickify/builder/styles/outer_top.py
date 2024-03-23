@@ -1,6 +1,6 @@
 from brickify.common.utils import AutoStringEnum
 from brickify.builder.colours import Colour
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName, StyleOverride, StyleOverrideCondition, ComponentConfigurationMode
+from brickify.builder.styles.style_utils import StyleOverrideEffect, Style, StyleOptions, Component, StyleName, StyleOverride, StyleOverrideCondition, ComponentConfigurationMode
 from brickify.builder.styles.inner_top import inner_top_style_options
 from enum import auto
 
@@ -18,7 +18,8 @@ print("g")
 OUTER_OVERRIDE = StyleOverride(
     style_type=StyleName.INNER_TOP,
     condition=StyleOverrideCondition.IS_NOT,
-    value=None,
+    effect=StyleOverrideEffect.ADD_SUFFIX,
+    value=set([None]),
     suffix_added="__outer_only"
 )
 

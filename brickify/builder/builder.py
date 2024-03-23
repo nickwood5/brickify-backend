@@ -4,7 +4,7 @@ from brickify.common.utils import AutoStringEnum
 from enum import auto
 import concurrent.futures
 from brickify.builder.styles import skin_colour_options, legs_style_options, facial_hair_style_options, arm_style_options, eyes_style_options, hair_style_options, inner_top_style_options, outer_top_style_options
-from brickify.builder.styles.style_utils import StyleOverrideCondition
+from brickify.builder.styles.style_utils import StyleOverrideCondition, StyleOverrideEffect
 from brickify.builder.test import do
 import os
 import base64
@@ -224,12 +224,12 @@ class Builder:
 
     def get_component_resolvers(self) -> list:
         return [
-            #self.resolve_legs,
-            #self.resolve_facial_hair,
-            #self.resolve_arms,       
-            #self.resolve_inner_top,
-            #self.resolve_outer_top, 
-            #self.resolve_eyes,
+            self.resolve_legs,
+            self.resolve_facial_hair,
+            self.resolve_arms,       
+            self.resolve_inner_top,
+            self.resolve_outer_top, 
+            self.resolve_eyes,
             self.resolve_hair,
             self.resolve_skin_colour,
         ]
@@ -263,20 +263,35 @@ class Builder:
 
         print(configured_styles_map)
 
-
+        styles_to_delete = []
 
         for style_name, configured_style in configured_styles_map.items():
             style_override = configured_style.style.override
 
             if style_override is None:
+                print(F"No override for {style_name}")
                 continue
 
             target_style_name =  style_override.style_type
             configured_styles_map[target_style_name]
 
+            print(f"Override for {style_name}")
             if style_override.condition == StyleOverrideCondition.IS_NOT:
-                if configured_styles_map[target_style_name].style.source == style_override.value:
-                    configured_styles_map[target_style_name].style.source += style_override.suffix_added
+                condition = configured_styles_map[target_style_name].style.source not in style_override.value
+            elif style_override.condition == StyleOverrideCondition.IS:
+                condition = configured_styles_map[target_style_name].style.source in style_override.value
+
+            print(f"Condition ")
+
+            if condition:
+                if style_override.effect == StyleOverrideEffect.ADD_SUFFIX:
+                    configured_style.style.source += style_override.suffix_added
+                elif style_override.effect == StyleOverrideEffect.DELETE:
+                    
+                    styles_to_delete.append(style_name)
+
+        for style_name in styles_to_delete:
+            configured_styles_map.pop(style_name)
 
         for style_name, configured_style in configured_styles_map.items():
             all_pieces += configured_style.style.get_coloured(configured_style.components, global_colours)
