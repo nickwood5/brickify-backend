@@ -147,6 +147,9 @@ class Style:
                 if colour_code is None:
                     colour_code = self.component_name_to_component[component_name].default_colour
 
+                if colour_code is None:
+                    colour_code = Colour.BLACK
+
             #print(self.source)
             print(self.source)
             print(f"DATA IS {self.data}")
