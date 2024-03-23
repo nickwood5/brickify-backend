@@ -63,6 +63,10 @@ marty_mcfly = HairStyle(
             configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),
     ]
 )
 
@@ -79,6 +83,10 @@ doc_brown = HairStyle(
             configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),
     ]
 )
 
@@ -89,6 +97,10 @@ elsa = HairStyle(
         Component(
             name="hair",
             hidden_names={"hair_top"}
+        ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
         ),
         Component(
             name="any",

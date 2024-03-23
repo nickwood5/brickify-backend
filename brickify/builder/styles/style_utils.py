@@ -76,7 +76,9 @@ class Style:
                 
             cleaned_components.append(component)
 
-
+        self.globally_configured_components = {
+            component.name: component for component in cleaned_components if component.configuration_mode == ComponentConfigurationMode.GLOBAL
+        }
 
         self.components = cleaned_components
 
@@ -114,14 +116,14 @@ class Style:
     def to_string(self):
         return self.string
     
-    def get_coloured(self, component_name_to_colour: dict[str, Colour]) -> list[str]:
+    def get_coloured(self, component_name_to_colour: dict[str, Colour], global_colours) -> list[str]:
         #assert self.configurable_components_set == set(component_name_to_colour.keys()), f"Expected {self.configurable_components_set}, got {set(component_name_to_colour.keys())}"
 
         res = []
 
         res.append(f"0 Type: {self.name}, Source: {self.source}")
 
-
+        print(f"global colours are {global_colours}")
         for component_name in self.configurable_component_names:
             colour = component_name_to_colour[component_name]
 
@@ -140,6 +142,14 @@ class Style:
             component_parts = self.data[component_name]
 
             res.append(f"0 Component: {component_name}, colour = {colour}")
+            for component_part in component_parts:
+                res.append(component_part.format(colour_code))
+
+        print(f"we need to confiure {self.globally_configured_components.keys()} globally")
+        for component_name in self.globally_configured_components.keys():
+            colour_code = global_colours[component_name]
+            component_parts = self.data[component_name]
+
             for component_part in component_parts:
                 res.append(component_part.format(colour_code))
         

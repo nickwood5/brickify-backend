@@ -279,8 +279,7 @@ class Builder:
                     configured_styles_map[target_style_name].style.source += style_override.suffix_added
 
         for style_name, configured_style in configured_styles_map.items():
-            configured_style.components.update(global_colours)
-            all_pieces += configured_style.style.get_coloured(configured_style.components)
+            all_pieces += configured_style.style.get_coloured(configured_style.components, global_colours)
 
         print(f"All pieces {all_pieces}")
 
