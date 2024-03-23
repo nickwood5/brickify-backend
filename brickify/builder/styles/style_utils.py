@@ -22,6 +22,12 @@ class StyleName(LowerAutoStringEnum):
 class StyleOverrideCondition(AutoStringEnum):
     IS_NOT = auto()
 
+class ComponentConfigurationMode(AutoStringEnum):
+    STATIC = auto() # Colour is specified in component configuration
+    GLOBAL = auto() # Colour comes from a globally defined colour
+    DYNAMIC = auto() # Colour is chosen by vision model
+
+
 @dataclass
 class StyleOverride:
     style_type: StyleName
@@ -35,12 +41,12 @@ class Component:
     name: str
     hidden_names: Optional[set[str]] = None
     default_colour: Optional[Colour] = None
-    configurable: bool = True
+    configuration_mode: ComponentConfigurationMode = ComponentConfigurationMode.DYNAMIC
     
 
     def __post_init__(self) -> None:
-        if not self.configurable and self.default_colour is None:
-            raise Exception("Must provide default colour if component is not configurable")
+        if self.configuration_mode == ComponentConfigurationMode.STATIC and self.default_colour is None:
+            raise Exception("Must provide default colour if component is static")
 
 
 
@@ -79,7 +85,7 @@ class Style:
         }
        
 
-        self.configurable_components = [component for component in cleaned_components if component.configurable]
+        self.configurable_components = [component for component in cleaned_components if component.configuration_mode == ComponentConfigurationMode.DYNAMIC]
 
         self.configurable_component_names = [component.name for component in self.configurable_components]
         

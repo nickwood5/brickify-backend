@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName, ComponentConfigurationMode
 from brickify.builder.colours import Colour
 
 class EyesStyle(Style):
@@ -15,7 +15,7 @@ glasses = EyesStyle(
 blank = EyesStyle(
     source="blank",
     components=[
-        Component(name="eyes", default_colour=Colour.BLACK, configurable=False)
+        Component(name="eyes", default_colour=Colour.BLACK, configuration_mode=ComponentConfigurationMode.STATIC)
     ]
 )
 

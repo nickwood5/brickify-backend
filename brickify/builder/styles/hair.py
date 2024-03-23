@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName, ComponentConfigurationMode
 from brickify.builder.colours import Colour
 
 class HairStyle(Style):
@@ -14,7 +14,7 @@ very_short_curly = HairStyle(
         ),
         Component(
             name="skull",
-            configurable=False,
+            configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
     ]
@@ -29,7 +29,7 @@ bushy_hair_with_bangs__female = HairStyle(
         ),
         Component(
             name="skull",
-            configurable=False,
+            configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
     ]
@@ -44,7 +44,7 @@ bushy_hair_without_bangs__female = HairStyle(
         ),
         Component(
             name="skull",
-            configurable=False,
+            configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
     ]
@@ -60,7 +60,7 @@ marty_mcfly = HairStyle(
         ),
         Component(
             name="skull",
-            configurable=False,
+            configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
     ]
@@ -76,7 +76,7 @@ doc_brown = HairStyle(
         ),
         Component(
             name="any",
-            configurable=False,
+            configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
     ]
@@ -92,7 +92,7 @@ elsa = HairStyle(
         ),
         Component(
             name="any",
-            configurable=False,
+            configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
     ]
@@ -107,7 +107,7 @@ afro = HairStyle(
         ),
         Component(
             name="any",
-            configurable=False,
+            configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
     ]

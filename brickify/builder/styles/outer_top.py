@@ -1,6 +1,6 @@
 from brickify.common.utils import AutoStringEnum
 from brickify.builder.colours import Colour
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName, StyleOverride, StyleOverrideCondition
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName, StyleOverride, StyleOverrideCondition, ComponentConfigurationMode
 from brickify.builder.styles.inner_top import inner_top_style_options
 from enum import auto
 
@@ -29,7 +29,7 @@ closed_blazer = OuterTopStyle(
     components=[
         "primary", Component(
             name="arm_connector",
-            configurable=False,
+            configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.BLACK
         )
     ],
@@ -42,7 +42,7 @@ open_blazer = OuterTopStyle(
     components=[
         "blazer", Component(
             name="any",
-            configurable=False,
+            configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.BLACK
         )
     ],
