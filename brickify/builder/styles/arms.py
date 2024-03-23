@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName, ComponentConfigurationMode
 
 class ArmStyle(Style):
     def __init__(self, **kwargs):
@@ -10,7 +10,11 @@ long_sleeves = ArmStyle(
     components=[
         Component(
             name="primary"
-        )
+        ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),
     ]
 )
 
@@ -20,7 +24,11 @@ short_sleeves = ArmStyle(
     components=[
         Component(
             name="primary"
-        )
+        ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),
     ]
 )
 
@@ -28,7 +36,10 @@ short_sleeves = ArmStyle(
 sleeveless = ArmStyle(
     source="sleeveless",
     prompt_name="Sleeveless",
-    components=[],
+    components=[Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),],
 )
 
 arm_styles = [
