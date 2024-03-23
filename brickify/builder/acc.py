@@ -80,7 +80,7 @@ class OpenAIClient:
     Considering above, choose the option from the following that best matches the description. If none of them match, choose the closest match
     {options_str}
 
-    Respond with ONLY a choice by number, with no added description. You cannot respond with None of the above \
+    Respond with ONLY a single choice by number, with no added description. You cannot respond with None of the above \
     """
         #print(prompt)
         index = self.get_response([{"type": "text", "text": prompt}])
