@@ -113,6 +113,8 @@ class Style:
 
         res = []
 
+        res.append(f"0 Type: {self.name}, Source: {self.source}")
+
 
         for component_name in self.configurable_component_names:
             colour = component_name_to_colour[component_name]
@@ -131,6 +133,7 @@ class Style:
             print(f"DATA IS {self.data}")
             component_parts = self.data[component_name]
 
+            res.append(f"0 Component: {component_name}, colour = {colour}")
             for component_part in component_parts:
                 res.append(component_part.format(colour_code))
         
