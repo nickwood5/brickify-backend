@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName, ComponentConfigurationMode
 
 class FacialHairStyle(Style):
     def __init__(self, **kwargs):
@@ -7,41 +7,64 @@ class FacialHairStyle(Style):
 
 blank = FacialHairStyle(
     source="none",
-    components=[]
+    components=[Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),]
 )
 
 only_mustache = FacialHairStyle(
     source="only_mustache",
     components=[
-        Component(name="mustache")
+        Component(name="mustache"),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),
     ]
 )
 
 archer_beard = FacialHairStyle(
     source="archer_beard",
     components=[
-        Component(name="beard")
+        Component(name="beard"),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),
     ]
 )
 
 short_beard = FacialHairStyle(
     source="short_beard",
     components=[
-        Component(name="beard")
+        Component(name="beard"),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),
     ]
 )
 
 medium_beard = FacialHairStyle(
     source="medium_beard",
     components=[
-        Component(name="beard")
+        Component(name="beard"),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),
     ]
 )
 
 long_beard = FacialHairStyle(
     source="long_beard",
     components=[
-        Component(name="beard")
+        Component(name="beard"),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),
     ]
 )
 

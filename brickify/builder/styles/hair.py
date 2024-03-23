@@ -17,6 +17,10 @@ very_short_curly = HairStyle(
             configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),
     ]
 )
 
@@ -32,6 +36,10 @@ bushy_hair_with_bangs__female = HairStyle(
             configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),
     ]
 )
 
@@ -46,6 +54,10 @@ bushy_hair_without_bangs__female = HairStyle(
             name="skull",
             configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.LIGHT_BLUISH_GRAY
+        ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
         ),
     ]
 )
@@ -122,12 +134,19 @@ afro = HairStyle(
             configuration_mode=ComponentConfigurationMode.STATIC,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),
     ]
 )
 
 bald = HairStyle(
     source="bald",
-    components=[]
+    components=[Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),]
 )
 
 hair_styles = [

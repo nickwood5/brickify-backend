@@ -8,14 +8,22 @@ class EyesStyle(Style):
 glasses = EyesStyle(
     source="glasses",
     components=[
-        Component(name="primary")
+        Component(name="primary"),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),
     ]
 )
 
 blank = EyesStyle(
     source="blank",
     components=[
-        Component(name="eyes", default_colour=Colour.BLACK, configuration_mode=ComponentConfigurationMode.STATIC)
+        Component(name="eyes", default_colour=Colour.BLACK, configuration_mode=ComponentConfigurationMode.STATIC),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL
+        ),
     ]
 )
 
