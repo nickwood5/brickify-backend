@@ -1,7 +1,8 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleType
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName
 
 class ArmStyle(Style):
-    pass
+    def __init__(self, **kwargs):
+        super().__init__(name=StyleName.ARMS, **kwargs)
 
 long_sleeves = ArmStyle(
     source="long_sleeves",
@@ -36,4 +37,4 @@ arm_styles = [
     sleeveless,
 ]
 
-arm_style_options = StyleOptions(arm_styles, name=StyleType.ARMS)
+arm_style_options = StyleOptions(arm_styles)

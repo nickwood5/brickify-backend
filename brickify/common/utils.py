@@ -6,9 +6,10 @@ def get_json(file_path):
         return json.load(file)
     
 class AutoStringEnum(Enum):
-    def _generate_next_value_(name, start, count, last_values):
-        return name
+    def __str__(self):
+        return self.name
     
 class LowerAutoStringEnum(Enum):
-    def _generate_next_value_(name, start, count, last_values):
-        return name
+    
+    def __str__(self):
+        return self.name.lower()###

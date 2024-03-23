@@ -1,7 +1,8 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleType
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName
 
 class InnerTopStyle(Style):
-    pass
+    def __init__(self, **kwargs):
+        super().__init__(name=StyleName.INNER_TOP, **kwargs)
 
 
 blank_shirt = InnerTopStyle(
@@ -170,7 +171,8 @@ inner_top_styles = [
     blank_crop_top,
     striped_crop_top,
     pocket_blank_shirt,
-    thick_striped_shirt
+    thick_striped_shirt,
+    not_visisble
 ]
 
-inner_top_style_options = StyleOptions(inner_top_styles, prefix="I", name=StyleType.INNER_TOP)
+inner_top_style_options = StyleOptions(inner_top_styles, prefix="I")

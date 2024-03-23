@@ -1,7 +1,8 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleType
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName
 
 class FacialHairStyle(Style):
-    pass
+    def __init__(self, **kwargs):
+        super().__init__(name=StyleName.FACIAL_HAIR, **kwargs)
 
 
 blank = FacialHairStyle(
@@ -53,4 +54,4 @@ facial_hair_styles = [
     long_beard
 ]
 
-facial_hair_style_options = StyleOptions(facial_hair_styles, name=StyleType.FACIAL_HAIR)
+facial_hair_style_options = StyleOptions(facial_hair_styles)

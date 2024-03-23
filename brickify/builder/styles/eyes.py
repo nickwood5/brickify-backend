@@ -1,8 +1,9 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleType
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName
 from brickify.builder.colours import Colour
 
 class EyesStyle(Style):
-    pass
+    def __init__(self, **kwargs):
+        super().__init__(name=StyleName.EYES, **kwargs)
 
 glasses = EyesStyle(
     source="glasses",
@@ -23,4 +24,4 @@ eyes_styles = [
     blank,
 ]
 
-eyes_style_options = StyleOptions(eyes_styles, name=StyleType.EYES)
+eyes_style_options = StyleOptions(eyes_styles)

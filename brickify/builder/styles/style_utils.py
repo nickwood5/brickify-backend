@@ -4,11 +4,11 @@ from brickify.builder.acc import client, Model
 import json
 from dataclasses import dataclass
 from typing import Union
-from brickify.common.utils import LowerAutoStringEnum
-from enum import auto
+from brickify.common.utils import LowerAutoStringEnum, AutoStringEnum, get_json
+from enum import auto, Enum
 
 
-class StyleType(LowerAutoStringEnum):
+class StyleName(LowerAutoStringEnum):
     ARMS = auto()
     EYES = auto()
     FACIAL_HAIR = auto()
@@ -19,6 +19,16 @@ class StyleType(LowerAutoStringEnum):
 
 
 
+class StyleOverrideCondition(AutoStringEnum):
+    IS_NOT = auto()
+
+@dataclass
+class StyleOverride:
+    style_type: StyleName
+    condition: StyleOverrideCondition
+    value: str
+    suffix_added: str
+
 
 @dataclass
 class Component:
@@ -26,20 +36,25 @@ class Component:
     hidden_names: Optional[set[str]] = None
     default_colour: Optional[Colour] = None
     configurable: bool = True
+    
 
     def __post_init__(self) -> None:
         if not self.configurable and self.default_colour is None:
             raise Exception("Must provide default colour if component is not configurable")
 
 
+
+
 class Style:
-    def __init__(self, source: Optional[str], components: Optional[list[Union[Component, str]]] = None, is_null: bool=False,  prompt_name: Optional[str]=None) -> None:
+    def __init__(self, name: StyleName, source: str, components: Optional[list[Union[Component, str]]] = None, is_null: bool=False,  prompt_name: Optional[str]=None, override: Optional[StyleOverride] = None) -> None:
         if prompt_name is None:
             prompt_name = ' '.join(word.capitalize() for word in source.split('_'))
 
+        self.name = name
         self.source = source
         self.prompt_name = prompt_name
         self.is_null = is_null
+        self.override = override
         
         if source is None and components is not None:
             raise Exception("components should not be provided if source is None")
@@ -59,20 +74,69 @@ class Style:
 
         self.components = cleaned_components
 
-        
+        self.component_name_to_component = {
+            comp.name: comp for comp in self.components 
+        }
        
 
-        self.configurable_components = [component.name for component in cleaned_components if component.configurable]
-        self.configurable_components_set = set(self.configurable_components) 
+        self.configurable_components = [component for component in cleaned_components if component.configurable]
+
+        self.configurable_component_names = [component.name for component in self.configurable_components]
+        
+        self.configurable_components_set = set(self.configurable_component_names) 
         self.default_colours = {
             component.name: component.default_colour for component in cleaned_components if component.default_colour is not None
-        }#
+        }
 
-        components_string = ", ".join(self.configurable_components)
+        components_string = ", ".join(self.configurable_component_names)
         self.string = f"{self.prompt_name} ({components_string})"
+
+        self.data = get_json(f"brickify/builder/schematics/{name}/{source}.json")
+
+
+        self.default_components_list = []
+
+        
+
+        for component_name, default_colour in self.default_colours.items():
+            component_parts = self.data[component_name]
+
+            for component_part in component_parts:
+                self.default_components_list.append(component_part.format(default_colour))
+
 
     def to_string(self):
         return self.string
+    
+    def get_coloured(self, component_name_to_colour: dict[str, Colour]) -> list[str]:
+        #assert self.configurable_components_set == set(component_name_to_colour.keys()), f"Expected {self.configurable_components_set}, got {set(component_name_to_colour.keys())}"
+
+        res = []
+
+
+        for component_name in self.configurable_component_names:
+            colour = component_name_to_colour[component_name]
+
+            colour_code = COLOUR_MAPPINGS.get(colour)
+
+            if colour_code is None:
+                colour = client.get_closest(colour, list(COLOUR_MAPPINGS.keys()))
+                colour_code = COLOUR_MAPPINGS.get(colour)
+
+                if colour_code is None:
+                    colour_code = self.component_name_to_component[component_name].default_colour
+
+            #print(self.source)
+            print(self.source)
+            print(f"DATA IS {self.data}")
+            component_parts = self.data[component_name]
+
+            for component_part in component_parts:
+                res.append(component_part.format(colour_code))
+        
+        return res + self.default_components_list
+
+        #for component_name, colour in component_name_to_colour.items():
     
 class ColourStyle:
     def __init__(self, description: str, colour_description_to_colour: dict[str, Colour]) -> None:
@@ -140,8 +204,9 @@ class ConfiguredComponent:
         self.colour_code = colour_code
 
 class ConfiguredStyle:
-    def __init__(self, style: Style, components: Optional[dict]=None) -> None:
+    def __init__(self, style: Style, components: Optional[dict[str, Colour]]=None) -> None:
         self.style = style
+        self.components = components
 
         self.configured_components = []
 
@@ -163,9 +228,13 @@ from typing import TypeVar
 StyleSubclass = TypeVar("StyleSubclass", bound=Style)
 
 class StyleOptions:
-    def __init__(self, styles: list[StyleSubclass], name: StyleType, prefix: str="") -> None:
+    def __init__(self, styles: list[StyleSubclass], prefix: str="") -> None:
         self.styles = styles
-        self.name = name
+
+        style_name_set = {style.name for style in styles}
+        assert len(style_name_set) == 1
+
+        self.name = styles[0].name
 
         all_styles = [style.to_string() for style in styles]
        
@@ -174,6 +243,8 @@ class StyleOptions:
 
     def resolve_config(self, config: dict) -> Optional[ConfiguredStyle]:
         style_key = str(config["style"])
+
+        print(f"For {self.name}, {config}")
         components = config["components"] if config["components"] is not None else {}
 
         style = self.style_code_mappings[style_key]

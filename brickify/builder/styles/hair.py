@@ -1,8 +1,9 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleType
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName
 from brickify.builder.colours import Colour
 
 class HairStyle(Style):
-    pass
+    def __init__(self, **kwargs):
+        super().__init__(name=StyleName.HAIR, **kwargs)
 
 very_short_curly = HairStyle(
     source="very_short_curly",
@@ -65,7 +66,7 @@ marty_mcfly = HairStyle(
     ]
 )
 
-marty_mcfly = HairStyle(
+doc_brown = HairStyle(
     source="doc_brown",
     prompt_name="Male shoulder-length, wild and unkempt style with wiry, white hair standing out in various directions (example: Doc Brown)",
     components=[
@@ -74,7 +75,7 @@ marty_mcfly = HairStyle(
             hidden_names={"hair_top"}
         ),
         Component(
-            name="skull",
+            name="any",
             configurable=False,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
@@ -90,7 +91,7 @@ elsa = HairStyle(
             hidden_names={"hair_top"}
         ),
         Component(
-            name="skull",
+            name="any",
             configurable=False,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
@@ -105,7 +106,7 @@ afro = HairStyle(
             hidden_names={"hair_top"}
         ),
         Component(
-            name="skull",
+            name="any",
             configurable=False,
             default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
@@ -124,7 +125,8 @@ hair_styles = [
     marty_mcfly,
     elsa,
     afro,
-    bald
+    bald,
+    doc_brown
 ]
 
-hair_style_options = StyleOptions(hair_styles, name=StyleType.HAIR)
+hair_style_options = StyleOptions(hair_styles)

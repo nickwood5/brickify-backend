@@ -1,6 +1,6 @@
 from brickify.common.utils import AutoStringEnum
 from brickify.builder.colours import Colour
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleType
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName, StyleOverride, StyleOverrideCondition
 from brickify.builder.styles.inner_top import inner_top_style_options
 from enum import auto
 
@@ -11,9 +11,16 @@ class StyleDependencyType(AutoStringEnum):
 
 class OuterTopStyle(Style):
     def __init__(self, inner_dependency_type: StyleDependencyType, **kwargs) -> None:
-        super().__init__(**kwargs)
+        super().__init__(name=StyleName.OUTER_TOP, **kwargs)###
         self.inner_dependency_type = inner_dependency_type
 
+print("g")
+OUTER_OVERRIDE = StyleOverride(
+    style_type=StyleName.INNER_TOP,
+    condition=StyleOverrideCondition.IS_NOT,
+    value=None,
+    suffix_added="__outer_only"
+)
 
 closed_blazer = OuterTopStyle(
     source="closed_blazer",
@@ -25,7 +32,7 @@ closed_blazer = OuterTopStyle(
             configurable=False,
             default_colour=Colour.BLACK
         )
-    ]
+    ],
 )
 
 open_blazer = OuterTopStyle(
@@ -34,12 +41,12 @@ open_blazer = OuterTopStyle(
     inner_dependency_type=StyleDependencyType.REQUIRED,
     components=[
         "blazer", Component(
-            name="arm_connector",
+            name="any",
             configurable=False,
             default_colour=Colour.BLACK
         )
-    ]
-)
+    ],
+)##
 
 sweater = OuterTopStyle(
     source="sweater",
@@ -47,7 +54,8 @@ sweater = OuterTopStyle(
     inner_dependency_type=StyleDependencyType.NOT_REQUIRED,
     components=[
         "primary"
-    ]
+    ],
+    #override=OUTER_OVERRIDE
 )
 
 striped_sweater = OuterTopStyle(
@@ -58,6 +66,8 @@ striped_sweater = OuterTopStyle(
         "stripe_1", "stripe_2"
     ]
 )
+
+
 
 sweater_with_shirt_showing = OuterTopStyle(
     source="sweater_with_shirt_showing",
@@ -74,7 +84,8 @@ zip_hoodie = OuterTopStyle(
     inner_dependency_type=StyleDependencyType.OPTIONAL,
     components=[
         "primary"
-    ]
+    ],
+    override=OUTER_OVERRIDE
 )
 
 puffy_jacket = OuterTopStyle(
@@ -83,19 +94,22 @@ puffy_jacket = OuterTopStyle(
     inner_dependency_type=StyleDependencyType.OPTIONAL,
     components=[
         "primary", "zipper"
-    ]
+    ],
+    override=OUTER_OVERRIDE
 )
 
 closed_cardigan = OuterTopStyle(
     source="closed_cardigan",
-    inner_dependency_type=StyleDependencyType.REQUIRED,
-    components=["cardigan"]
+    inner_dependency_type=StyleDependencyType.NOT_REQUIRED,
+    components=["cardigan"],
+    override=OUTER_OVERRIDE
 )
 
 open_cardigan = OuterTopStyle(
     source="open_cardigan",
     inner_dependency_type=StyleDependencyType.REQUIRED,
-    components=["cardigan"]
+    components=["cardigan"],
+    override=OUTER_OVERRIDE
 )
 
 none = OuterTopStyle(
@@ -119,4 +133,4 @@ outer_top_styles = [
     none,
 ]
 
-outer_top_style_options = StyleOptions(outer_top_styles, prefix="O", name=StyleType.OUTER_TOP)
+outer_top_style_options = StyleOptions(outer_top_styles, prefix="O")
