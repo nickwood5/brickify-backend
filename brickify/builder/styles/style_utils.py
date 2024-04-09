@@ -127,6 +127,11 @@ class Style:
 
         self.data = get_json(f"brickify/builder/schematics/{name}/{source}.json")
 
+        for variant in self.variants.values():
+            variant_components = set(variant.keys())
+
+        assert variant_components <= self.all_component_names, f"Got {self.all_component_names}, expected {variant_components}"
+
 
         self.default_colours = {
             component.name: component.default_colour for component in cleaned_components if component.default_colour is not None
@@ -190,7 +195,8 @@ class Style:
 
         for component_name in self.globally_configured_components.keys():
             colour_code = component_name_to_colour[component_name]
-            component_parts = self.data[component_name]
+            print(self.prompt_name)
+            component_parts = data[component_name]
             component_names.add(component_name)
 
             for component_part in component_parts:
@@ -199,14 +205,16 @@ class Style:
         default_components_list = []
 
         for component_name, default_colour in self.static_components.items():
-            component_parts = self.data[component_name]
+            component_parts = data.get(component_name)
+            if component_parts is None:
+                continue
 
             component_names.add(component_name)
 
             for component_part in component_parts:
                 default_components_list.append(component_part.format(default_colour))
 
-        assert set(self.data.keys()) == component_names, f"{source} has {set(self.data.keys())}, got {component_names}"
+        assert set(data.keys()) >= component_names, f"{source} has {set(data.keys())}, got {component_names}"
 
         return res + default_components_list
 

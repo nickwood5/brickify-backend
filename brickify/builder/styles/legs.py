@@ -1,4 +1,4 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName, ComponentConfigurationMode
 from brickify.builder.colours import Colour
 
 class LegsStyle(Style):
@@ -15,7 +15,8 @@ long_pants = LegsStyle(
         Component(
             name="shoes",
             default_colour=Colour.RED
-        )
+        ),
+        
     ]
 )
 
@@ -29,6 +30,11 @@ short_pants = LegsStyle(
         Component(
             name="shoes",
             default_colour=Colour.DARK_BLUE
+        ),
+        Component(
+            name="skin",
+            default_colour=Colour.LIGHT_BEIGE,
+            configuration_mode=ComponentConfigurationMode.GLOBAL
         ),
     ]
     

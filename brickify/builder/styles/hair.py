@@ -44,6 +44,11 @@ bushy_hair_with_bangs__female = HairStyle(
             configuration_mode=ComponentConfigurationMode.GLOBAL,
             default_colour=Colour.LIGHT_BEIGE
         ),
+        Component(
+            name="any",
+            configuration_mode=ComponentConfigurationMode.STATIC,
+            default_colour=Colour.LIGHT_BLUISH_GRAY
+        )
     ]
 )
 
@@ -65,6 +70,11 @@ bushy_hair_without_bangs__female = HairStyle(
             configuration_mode=ComponentConfigurationMode.GLOBAL,
             default_colour=Colour.LIGHT_BEIGE
         ),
+         Component(
+            name="any",
+            configuration_mode=ComponentConfigurationMode.STATIC,
+            default_colour=Colour.LIGHT_BLUISH_GRAY
+        )
     ]
 )
 

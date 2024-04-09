@@ -63,7 +63,17 @@ sweater = OuterTopStyle(
     prompt_name="Sweater",
     inner_dependency_type=StyleDependencyType.NOT_REQUIRED,
     components=[
-        Component(name="primary", default_colour=Colour.DARK_BLUE)
+        Component(name="primary", default_colour=Colour.DARK_BLUE),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        ),
+        Component(
+            name="arm_connector",
+            configuration_mode=ComponentConfigurationMode.STATIC,
+            default_colour=Colour.LIGHT_BLUISH_GRAY
+        )
     ],
     #override=OUTER_OVERRIDE
 )
@@ -80,7 +90,12 @@ striped_sweater = OuterTopStyle(
         Component(
             name="stripe_2",
             default_colour=Colour.RED,
-        )
+        ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        ),
     ]
 )
 
@@ -98,7 +113,17 @@ sweater_with_shirt_showing = OuterTopStyle(
         Component(
             name="shirt",
             default_colour=Colour.RED,
-        )
+        ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        ),
+        Component(
+            name="arm_connector",
+            configuration_mode=ComponentConfigurationMode.STATIC,
+            default_colour=Colour.LIGHT_BLUISH_GRAY
+        ),
     ]
 )
 
@@ -110,6 +135,11 @@ zip_hoodie = OuterTopStyle(
         Component(
             name="primary",
             default_colour=Colour.DARK_BLUE,
+        ),
+        Component(
+            name="arm_connector",
+            configuration_mode=ComponentConfigurationMode.STATIC,
+            default_colour=Colour.LIGHT_BLUISH_GRAY
         ),
     ],
     override=OUTER_OVERRIDE
@@ -125,9 +155,10 @@ puffy_jacket = OuterTopStyle(
             default_colour=Colour.DARK_BLUE,
         ),
         Component(
-            name="zipper",
-            default_colour=Colour.BLACK,
-        ), 
+            name="arm_connector",
+            configuration_mode=ComponentConfigurationMode.STATIC,
+            default_colour=Colour.LIGHT_BLUISH_GRAY
+        ),
     ],
     override=OUTER_OVERRIDE
 )
@@ -137,7 +168,12 @@ closed_cardigan = OuterTopStyle(
     inner_dependency_type=StyleDependencyType.NOT_REQUIRED,
     components=[Component(
         name="cardigan", default_colour=Colour.DARK_BLUE
-    )]
+    ),
+    Component(
+            name="any",
+            configuration_mode=ComponentConfigurationMode.STATIC,
+            default_colour=Colour.BLACK
+        )]
     #override=OUTER_OVERRIDE
 )
 
@@ -146,7 +182,12 @@ open_cardigan = OuterTopStyle(
     inner_dependency_type=StyleDependencyType.REQUIRED,
     components=[Component(
         name="cardigan", default_colour=Colour.DARK_BLUE
-    )]
+    ),
+    Component(
+            name="any",
+            configuration_mode=ComponentConfigurationMode.STATIC,
+            default_colour=Colour.BLACK
+        )]
     #override=OUTER_OVERRIDE
 )
 

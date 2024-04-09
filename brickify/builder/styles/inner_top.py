@@ -32,6 +32,16 @@ blank_shirt = InnerTopStyle(
         Component(
             name="primary",
             default_colour=Colour.DARK_BLUE
+        ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        ),
+        Component(
+            name="arm_connector",
+            configuration_mode=ComponentConfigurationMode.STATIC,
+            default_colour=Colour.LIGHT_BLUISH_GRAY
         )
     ]
 )
@@ -48,6 +58,11 @@ striped_shirt = InnerTopStyle(
             name="stripe_2",
             default_colour=Colour.RED
         ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        )
     ],
     override=DEFAULT_OVERRIDE
 )
@@ -64,6 +79,11 @@ thick_and_thin_striped_shirt = InnerTopStyle(
             name="thin_stripe",
             default_colour=Colour.RED
         ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        )
     ],
     override=DEFAULT_OVERRIDE
     
@@ -101,6 +121,16 @@ blank_shirt_with_tie = InnerTopStyle(
             name="tie",
             default_colour=Colour.RED
         ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        ),
+        Component(
+            name="pin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BLUISH_GRAY
+        )
     ],
     override=DEFAULT_OVERRIDE
 )
@@ -117,6 +147,11 @@ blank_shirt_with_bow_tie = InnerTopStyle(
             name="bow_tie",
             default_colour=Colour.RED
         ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        )
     ],
     override=DEFAULT_OVERRIDE
 )
@@ -133,6 +168,16 @@ polka_dot_shirt = InnerTopStyle(
             name="dots",
             default_colour=Colour.RED
         ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        ),
+        Component(
+            name="any",
+            configuration_mode=ComponentConfigurationMode.STATIC,
+            default_colour=Colour.LIGHT_BLUISH_GRAY
+        )
     ],
     #override=DEFAULT_OVERRIDE
 )
@@ -153,6 +198,11 @@ button_up_shirt = InnerTopStyle(
             configuration_mode=ComponentConfigurationMode.GLOBAL,
             default_colour=Colour.LIGHT_BEIGE
         ),
+        Component(
+            name="any",
+            configuration_mode=ComponentConfigurationMode.STATIC,
+            default_colour=Colour.LIGHT_BLUISH_GRAY
+        )
     ],
     override=DEFAULT_OVERRIDE
 )
@@ -169,6 +219,11 @@ striped_turtleneck = InnerTopStyle(
             name="stripe_2",
             default_colour=Colour.RED
         ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        )
     ],
     #override=DEFAULT_OVERRIDE
 )
@@ -185,6 +240,11 @@ striped_crop_top = InnerTopStyle(
             name="stripe_2",
             default_colour=Colour.RED
         ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        )
     ],
     ##override=DEFAULT_OVERRIDE
 )
@@ -196,6 +256,11 @@ blank_crop_top = InnerTopStyle(
             name="crop_top",
             default_colour=Colour.DARK_BLUE
         ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        )
     ],
     override=DEFAULT_OVERRIDE
 )
@@ -212,6 +277,16 @@ pocket_blank_shirt = InnerTopStyle(
             name="pocket",
             default_colour=Colour.BLACK
         ),
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        ),
+        Component(
+            name="any",
+            configuration_mode=ComponentConfigurationMode.STATIC,
+            default_colour=Colour.LIGHT_BLUISH_GRAY
+        )
     ],
     #override=DEFAULT_OVERRIDE
 )
