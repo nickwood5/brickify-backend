@@ -21,6 +21,7 @@ class Colour:
     SAND_GREEN = 378
     GREEN = 2
     DARK_GREEN = 288
+    TRANS_LIGHT_BLUE = 41
 
 COLOUR_MAPPINGS = {
     "Orange": Colour.ORANGE,

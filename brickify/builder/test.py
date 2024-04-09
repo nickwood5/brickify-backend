@@ -89,6 +89,5 @@ def do(image_url):
     #print(inner_top_colours)
     #print(outer_top_colours)
 
-    print(f"Torso: {inner_top_name}, {outer_top_name}")
     return inner_top_name, inner_top_colours, outer_top_name, outer_top_colours
 

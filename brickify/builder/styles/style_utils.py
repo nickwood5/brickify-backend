@@ -32,10 +32,8 @@ class ComponentConfigurationMode(AutoStringEnum):
     GLOBAL = auto() # Colour comes from a globally defined colour
     DYNAMIC = auto() # Colour is chosen by vision model
 
-
 @dataclass
-class StyleOverride:
-    style_type: StyleName
+class StyleOverrideConditionEffect:
     condition: StyleOverrideCondition
     effect: StyleOverrideEffect
     value: set[str]
@@ -45,6 +43,10 @@ class StyleOverride:
         if self.effect == StyleOverrideEffect.ADD_SUFFIX and self.suffix_added is None:
             raise Exception("Must provide suffix_added if effect is ADD_SUFFIX")
 
+@dataclass
+class StyleOverride:
+    style_type: StyleName
+    condition_effects: list[StyleOverrideConditionEffect]
 
 
 @dataclass
@@ -72,12 +74,26 @@ class Style:
         self.prompt_name = prompt_name
         self.is_null = is_null
         self.override = override
+
+        self.variants = dict()
+
+        if self.source is not None:
+            self.variants[self.source] = get_json(f"brickify/builder/schematics/{name}/{source}.json")
+
+            if override is not None:
+                for condition_effect in override.condition_effects:
+                    if condition_effect.effect == StyleOverrideEffect.ADD_SUFFIX:
+                        variant_name = f"{self.source}{condition_effect.suffix_added}"
+                        self.variants[variant_name] = get_json(f"brickify/builder/schematics/{name}/{variant_name}.json")
+
+        print(f"Variants are: {self.variants}")
         
         if source is None and components is not None:
             raise Exception("components should not be provided if source is None")
 
         if components is None:
             self.string = f"{self.prompt_name}"
+            self.all_component_names = {}
             return
 
         cleaned_components = []
@@ -93,6 +109,8 @@ class Style:
 
         self.components = cleaned_components
 
+        self.all_component_names = {component.name for component in self.components}
+
         self.component_name_to_component = {
             comp.name: comp for comp in self.components 
         }
@@ -103,9 +121,6 @@ class Style:
         self.configurable_component_names = [component.name for component in self.configurable_components]
         
         self.configurable_components_set = set(self.configurable_component_names) 
-        self.default_colours = {
-            component.name: component.default_colour for component in cleaned_components if component.default_colour is not None
-        }
 
         components_string = ", ".join(self.configurable_component_names)
         self.string = f"{self.prompt_name} ({components_string})"
@@ -113,61 +128,87 @@ class Style:
         self.data = get_json(f"brickify/builder/schematics/{name}/{source}.json")
 
 
-        self.default_components_list = []
+        self.default_colours = {
+            component.name: component.default_colour for component in cleaned_components if component.default_colour is not None
+        }
+
+        self.static_components = {
+            component.name: component.default_colour for component in cleaned_components if component.configuration_mode == ComponentConfigurationMode.STATIC
+        }
 
         
 
-        for component_name, default_colour in self.default_colours.items():
-            component_parts = self.data[component_name]
 
-            for component_part in component_parts:
-                self.default_components_list.append(component_part.format(default_colour))
+
+     
+
+    def get_data(self):
+        return get_json(f"brickify/builder/schematics/{self.name}/{self.source}.json")
 
 
     def to_string(self):
         return self.string
     
-    def get_coloured(self, component_name_to_colour: dict[str, Colour], global_colours) -> list[str]:
+    def get_as_single_colour(self, colour: Colour) -> list[str]:
+        res = []
+        for component_parts in self.get_data().values():
+            for part in component_parts:
+                res.append(part.format(colour))
+
+        return res
+
+    
+    def get_coloured(self, component_name_to_colour: dict[str, Colour], source: str) -> list[str]:
         #assert self.configurable_components_set == set(component_name_to_colour.keys()), f"Expected {self.configurable_components_set}, got {set(component_name_to_colour.keys())}"
 
+        print(f"Getting coloured for {self.prompt_name}")
+
+        print(component_name_to_colour)
         res = []
 
-        res.append(f"0 Type: {self.name}, Source: {self.prompt_name}")
+        if source is None:
+            return []
+        
+        component_names = set()
 
-        print(f"global colours are {global_colours}")
+        res.append(f"0 Type: {self.name}, Source: {self.prompt_name}, {source}")
+
+        data = self.variants[source]
         for component_name in self.configurable_component_names:
-            colour = component_name_to_colour[component_name]
+            colour_code = component_name_to_colour[component_name]
 
-            colour_code = COLOUR_MAPPINGS.get(colour)
+            if component_name not in data.keys():
+                continue
 
-            if colour_code is None:
-                colour = client.get_closest(colour, list(COLOUR_MAPPINGS.keys()))
-                colour_code = COLOUR_MAPPINGS.get(colour)
+            component_names.add(component_name)
 
-                if colour_code is None:
-                    colour_code = self.component_name_to_component[component_name].default_colour
+            component_parts = data[component_name]
 
-                if colour_code is None:
-                    colour_code = Colour.BLACK
-
-            #print(self.source)
-            print(self.source)
-            print(f"DATA IS {self.data}")
-            component_parts = self.data[component_name]
-
-            res.append(f"0 Component: {component_name}, colour = {colour}")
+            res.append(f"0 Component: {component_name}, colour = {colour_code}")
             for component_part in component_parts:
                 res.append(component_part.format(colour_code))
 
-        print(f"we need to confiure {self.globally_configured_components.keys()} globally")
         for component_name in self.globally_configured_components.keys():
-            colour_code = global_colours[component_name]
+            colour_code = component_name_to_colour[component_name]
             component_parts = self.data[component_name]
+            component_names.add(component_name)
 
             for component_part in component_parts:
                 res.append(component_part.format(colour_code))
         
-        return res + self.default_components_list
+        default_components_list = []
+
+        for component_name, default_colour in self.static_components.items():
+            component_parts = self.data[component_name]
+
+            component_names.add(component_name)
+
+            for component_part in component_parts:
+                default_components_list.append(component_part.format(default_colour))
+
+        assert set(self.data.keys()) == component_names, f"{source} has {set(self.data.keys())}, got {component_names}"
+
+        return res + default_components_list
 
         #for component_name, colour in component_name_to_colour.items():
     
@@ -237,20 +278,17 @@ class ConfiguredComponent:
         self.colour_code = colour_code
 
 class ConfiguredStyle:
-    def __init__(self, style: Style, components: Optional[dict[str, Colour]]=None) -> None:
+    def __init__(self, style: Style, components: dict[str, Colour]={}) -> None:
         self.style = style
         self.components = components
+        self.source = None
 
-        self.configured_components = []
+ 
 
-        if components is not None:
-            for name, colour in components.items():
-                default_colour = style.default_colours.get(name)
-                if default_colour is None:
-                    default_colour = Colour.BLACK
+    def retrive_global_colours(self, global_colours):
+        for component in self.style.globally_configured_components.keys():
+            self.components[component] = global_colours[component]
 
-                self.configured_components.append(ConfiguredComponent(default_colour, name, colour))
-            return
 
 
     def to_colour_config(self):
@@ -277,20 +315,13 @@ class StyleOptions:
     def resolve_config(self, config: dict) -> Optional[ConfiguredStyle]:
         style_key = str(config["style"])
 
-        print(f"For {self.name}, {config}")
         components = config["components"] if config["components"] is not None else {}
 
         style = self.style_code_mappings[style_key]
 
-    
-        print(f"Style for {self.name} is {style.prompt_name if style is not None else None}")
-
-
         if style.source is not None:
             if len(style.components) > 0:
                 config_components_set = set(components)
-
-                print(config_components_set, style.configurable_components_set)
                 
                 assert config_components_set == style.configurable_components_set
 
@@ -338,13 +369,10 @@ class StyleOptions:
         ]
         response = client.get_response(messages, Model.GPT_4_VISION)
 
-        print(prompt)
         if response.startswith("```json"):
             response = response.lstrip("```json").rstrip("```")
 
         config = json.loads(response)
-
-        print(f"Config for {self.name}: {config}")
 
         configured_style = self.resolve_config(config)
 

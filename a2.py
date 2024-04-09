@@ -30,12 +30,19 @@ for style_type, default_style in style_type_to_default.items():
         name: Colour.TRANS_LIGHT_BLUE for name in all_component_names
     }
 
-    for component_name in default_style.static_components.keys():
+    for component_name in all_component_names:
         default_style.static_components[component_name] = Colour.TRANS_LIGHT_BLUE
 
     
     style_name_to_default_configured_style[style_type] = ConfiguredStyle(style=default_style, components=components)
 
+
+style_type_name_to_default_string = dict()
+
+
+for style_type, default_style in style_type_to_default.items():
+
+    style_type_name_to_default_string[style_type] = default_style.get_as_single_colour(Colour.BLACK)
 
 
 style_types = [
@@ -48,43 +55,23 @@ style_types = [
     legs_style_options,
 ]
 
-for style_type in style_types:
-    
-    style_name = style_type.name
+for style, configured_style in style_name_to_default_configured_style.items():
+    print(configured_style.style.source)
 
-    #configured_styles_map.pop(style_name)
-    
-    folder_path = f"brickify/builder/schematic_source/{style_name}"
 
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
-    for style in style_type.styles:
-        style_variants = style.variants
+configured_styles = apply_overrides(style_name_to_default_configured_style)
+print('bre')
+for s in configured_styles:
+    print(s.style.prompt_name)
+    print(s.style.source)
+    print(s.source)
+all_pieces = construct_final_model(configured_styles)
 
-        all_component_names = style.all_component_names
+res = "\n".join(all_pieces)
 
-        
-        
-        for style_variant_name, style_variant in style_variants.items():
-            print(style.static_components)
-            style = deepcopy(style)
-            configured_styles_map = deepcopy(style_name_to_default_configured_style)
+with open(f"test.ldr", 'w') as file:
+    # Write the content to the file
+    file.write(res)
 
-            default_colours = style.default_colours
-
-            print(style.prompt_name)
-            components = {name: style.default_colours[name] for name in all_component_names}
-
-            configured_styles_map[style.name] = ConfiguredStyle(style=style, components=components)
-
-            configured_styles = apply_overrides(configured_styles_map)
-            all_pieces = construct_final_model(configured_styles)
-
-            res = "\n".join(all_pieces)
-
-            with open(f"{folder_path}/{style_variant_name}.ldr", 'w') as file:
-                # Write the content to the file
-                file.write(res)
-        
 
     

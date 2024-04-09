@@ -4,13 +4,14 @@ from brickify.common.utils import AutoStringEnum
 from enum import auto
 import concurrent.futures
 from brickify.builder.styles import skin_colour_options, legs_style_options, facial_hair_style_options, arm_style_options, eyes_style_options, hair_style_options, inner_top_style_options, outer_top_style_options
-from brickify.builder.styles.style_utils import StyleOverrideCondition, StyleOverrideEffect
+from brickify.builder.styles.style_utils import StyleOverrideCondition, StyleOverrideEffect, StyleName, ConfiguredStyle
 from brickify.builder.test import do
 import os
 import base64
 from brickify.builder.utils import load_json_from_folders
 import json
 from brickify.builder.colours import Colour
+from uuid import uuid4
 
 class BuildingMode(AutoStringEnum):
     FROM_IMAGE_FILE = auto()
@@ -47,17 +48,16 @@ def load_json_from_folders(main_folder):
 
 json_files_content = load_json_from_folders("brickify/builder/schematics")
 
-print(json_files_content)
 
 def get_component_string(colour_mapping, component_type, name):
 
     lookup = json_files_content[component_type][name]
 
     all_pieces = []
-    #print(lookup)
-    #print(colour_mapping)
+    ##print(lookup)
+    ##print(colour_mapping)
     for colour, pieces in lookup.items():
-        #print(colour, pieces)
+        ##print(colour, pieces)
         for piece in pieces:
             colour_code = Colour.LIGHT_BLUISH_GRAY if colour == "any" else colour_mapping[colour]
             all_pieces.append(piece.format(colour_code))
@@ -89,7 +89,7 @@ def encode_image(uploaded_file: UploadedFile):
     file_content = uploaded_file.read()
     # Get MIME type from the UploadedFile object
     mime_type = uploaded_file.content_type
-    print(f"Mime_type is {mime_type}")
+    #print(f"Mime_type is {mime_type}")
     if mime_type not in SUPPORTED_IMAGE_TYPES:
         raise ValueError("Unsupported image type")
     # Encode the file content to base64
@@ -115,11 +115,66 @@ class ImageSource:
     def get_image_url(self):
         if self.building_mode == BuildingMode.FROM_IMAGE_FILE:
             base64_image = encode_image(self.image_file)
-            print(base64_image)
+            #print(base64_image)
             return base64_image
     
         elif BuildingMode.FROM_IMAGE_URL:
             return self.image_url
+
+def construct_final_model(configured_styles: list[ConfiguredStyle]):
+    all_pieces = []
+
+    for configured_style in configured_styles:
+        all_pieces += configured_style.style.get_coloured(configured_style.components, configured_style.source)
+
+    return all_pieces
+
+def apply_overrides(configured_styles_map: dict[StyleName, ConfiguredStyle]):
+    styles_to_delete = []
+
+    for style_name, configured_style in configured_styles_map.items():
+        style_override = configured_style.style.override
+
+        if style_override is None:
+            
+            configured_style.source = configured_style.style.source
+            continue
+
+        target_style_name =  style_override.style_type
+        print(f"Target style was ", {target_style_name}, f'currently {configured_styles_map[target_style_name]}')
+
+        condition_applied = False
+
+        for condition_effect in style_override.condition_effects:
+            if condition_effect.condition == StyleOverrideCondition.IS_NOT:
+                condition = configured_styles_map[target_style_name].style.source not in condition_effect.value
+            elif condition_effect.condition == StyleOverrideCondition.IS:
+                condition = configured_styles_map[target_style_name].style.source in condition_effect.value
+                print(condition)
+            print(f"Test {style_name} because of {condition_effect.condition}, {configured_styles_map[target_style_name].source}, { condition_effect.value}")
+
+            if condition:
+                print("APPLIYED")
+                if condition_effect.effect == StyleOverrideEffect.ADD_SUFFIX:
+                    #configured_style.style.source += condition_effect.suffix_added
+
+                    configured_style.source = configured_style.style.source + condition_effect.suffix_added
+                elif condition_effect.effect == StyleOverrideEffect.DELETE:
+                    print(f"Deleting {style_name} because of {condition_effect.condition}, {configured_styles_map[target_style_name].source}")
+                    styles_to_delete.append(style_name)
+
+                condition_applied = True
+                break
+
+        if not condition_applied:
+            configured_style.source = configured_style.style.source
+
+        
+
+    for style_name in styles_to_delete:
+        configured_styles_map.pop(style_name)
+
+    return configured_styles_map.values()
 
 
 class Builder:
@@ -134,42 +189,21 @@ class Builder:
 
     def resolve_legs(self):
         return legs_style_options.get_configured_style(self.image_url), ResolverType.COMPONENT
-        name, colours = legs_style_options.get_configured_style_config(self.image_url)
 
-
-        call = (colours, "legs", name)
-
-        return [call], ResolverType.COMPONENT
     
     def resolve_facial_hair(self):
-        print("Start resolving facial hair")
-        return facial_hair_style_options.get_configured_style(self.image_url), ResolverType.COMPONENT
-        name, colours = facial_hair_style_options.get_configured_style_config(self.image_url)
-        if name is None:
-            return []
 
-        call = (colours, "facial_hair", name)
-        #print(call)
-        print("Finish resolving facial hair")
-        return [call], ResolverType.COMPONENT
+        return facial_hair_style_options.get_configured_style(self.image_url), ResolverType.COMPONENT
+
     
     def resolve_arms(self):
-        print("Start resolving arms")
+        #print("Start resolving arms")
         return arm_style_options.get_configured_style(self.image_url), ResolverType.COMPONENT
-        name, colours = arm_style_options.get_configured_style_config(self.image_url)
-
-
-
-        call = (colours, "arms", name)
-        print("Finish resolving arms")
-        return [call], ResolverType.COMPONENT
-
-
 
 
     def resolve_torso(self):
         
-        print(f"Start resolving torso")
+        #print(f"Start resolving torso")
 
         inner_top_name, inner_top_colours, outer_top_name, outer_top_colours = do(self.image_url)
 
@@ -179,14 +213,14 @@ class Builder:
             inner_top_colours["pin"] = Colour.BLACK
             configs.append((inner_top_colours, "torso", inner_top_name))
 
-        #print(outer_top_name)
-        #print(outer_top_colours)
+        ##print(outer_top_name)
+        ##print(outer_top_colours)
 
         if outer_top_name:
             outer_top_colours["arm_connector"] = Colour.BLACK
             configs.append((outer_top_colours, "torso", outer_top_name))
 
-        print("Finish resolving torso")
+        #print("Finish resolving torso")
         return configs, ResolverType.COMPONENT
     
     def resolve_inner_top(self):
@@ -196,30 +230,14 @@ class Builder:
         return outer_top_style_options.get_configured_style(self.image_url), ResolverType.COMPONENT
     
     def resolve_eyes(self):
-        print("test", eyes_style_options.get_configured_style(self.image_url).components)
+        #print("test", eyes_style_options.get_configured_style(self.image_url).components)
         return eyes_style_options.get_configured_style(self.image_url), ResolverType.COMPONENT
-        name, colours = eyes_style_options.get_configured_style_config(self.image_url)
 
-
-        call = (colours, "eyes", name)
-        print("Finish resolving arms")
-        return [call], ResolverType.COMPONENT
     
     def resolve_hair(self):
         configured_style = hair_style_options.get_configured_style(self.image_url)
 
         return configured_style, ResolverType.COMPONENT
-        name, colours = hair_style_options.get_configured_style_config(self.image_url)
-
-        hair_top = colours["hair"] if colours["hair"] is not None else None
-
-        if hair_top is not None:
-            colours["hair_top"] = hair_top
-
-        print("hair is " + name)
-        call = (colours, "hair", name)
-        print("Finish resolving hair")
-        return [call], ResolverType.COMPONENT
 
 
     def get_component_resolvers(self) -> list:
@@ -233,7 +251,7 @@ class Builder:
             self.resolve_hair,
             self.resolve_skin_colour,
         ]
-
+    
     def build(self):
         with concurrent.futures.ThreadPoolExecutor() as executor:
             # Submit each function to the executor
@@ -241,64 +259,25 @@ class Builder:
 
             results = [future.result() for future in futures]
 
-        all_pieces = []
-
-
         global_colours = dict()
 
-        call_args_list = []
-
-        configured_styles_map = dict()
+        configured_styles_map: dict[str, ConfiguredStyle] = dict()
         for data, resolver_type in results:
             if resolver_type == ResolverType.GLOBAL_COLOUR:
                 global_colours.update(data)
-                continue
             elif resolver_type == ResolverType.COMPONENT:
                 configured_styles_map[data.style.name] = data
-                pass
-            #for comp in data:
-            #    call_args_list.append(comp)
-            #    print(comp)
-            #    #print(components)
 
-        print(configured_styles_map)
+        for configured_style in configured_styles_map.values():
+            configured_style.retrive_global_colours(global_colours)
 
-        styles_to_delete = []
+        configured_styles = apply_overrides(configured_styles_map)
 
-        for style_name, configured_style in configured_styles_map.items():
-            style_override = configured_style.style.override
+        all_pieces = construct_final_model(configured_styles)
 
-            if style_override is None:
-                print(F"No override for {style_name}")
-                continue
+        #print(f"All pieces {all_pieces}")
 
-            target_style_name =  style_override.style_type
-            configured_styles_map[target_style_name]
-
-            print(f"Override for {style_name}")
-            if style_override.condition == StyleOverrideCondition.IS_NOT:
-                condition = configured_styles_map[target_style_name].style.source not in style_override.value
-            elif style_override.condition == StyleOverrideCondition.IS:
-                condition = configured_styles_map[target_style_name].style.source in style_override.value
-
-            print(f"Condition ")
-
-            if condition:
-                if style_override.effect == StyleOverrideEffect.ADD_SUFFIX:
-                    configured_style.style.source += style_override.suffix_added
-                elif style_override.effect == StyleOverrideEffect.DELETE:
-                    
-                    styles_to_delete.append(style_name)
-
-        for style_name in styles_to_delete:
-            configured_styles_map.pop(style_name)
-
-        for style_name, configured_style in configured_styles_map.items():
-            all_pieces += configured_style.style.get_coloured(configured_style.components, global_colours)
-
-        print(f"All pieces {all_pieces}")
-
-        from uuid import uuid4
+        
         id = uuid4()
         filename = f"brickify/generated_models/{id}.ldr"
 
@@ -307,7 +286,7 @@ class Builder:
             lines = f"{base}\n" + "\n".join(all_pieces)
             file.write(lines)
 
-        print(f"Built {filename}")
-        print(global_colours)
+        #print(f"Built {filename}")
+        #print(global_colours)
 
         return id

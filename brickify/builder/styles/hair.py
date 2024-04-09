@@ -10,7 +10,8 @@ very_short_curly = HairStyle(
     components=[
         Component(
             name="hair",
-            hidden_names={"hair_top"}
+            hidden_names={"hair_top"},
+            default_colour=Colour.BLACK
         ),
         Component(
             name="skull",
@@ -19,7 +20,8 @@ very_short_curly = HairStyle(
         ),
         Component(
             name="skin",
-            configuration_mode=ComponentConfigurationMode.GLOBAL
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
         ),
     ]
 )
@@ -29,7 +31,8 @@ bushy_hair_with_bangs__female = HairStyle(
     components=[
         Component(
             name="hair",
-            hidden_names={"hair_top"}
+            hidden_names={"hair_top"},
+            default_colour=Colour.BLACK
         ),
         Component(
             name="skull",
@@ -38,7 +41,8 @@ bushy_hair_with_bangs__female = HairStyle(
         ),
         Component(
             name="skin",
-            configuration_mode=ComponentConfigurationMode.GLOBAL
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
         ),
     ]
 )
@@ -48,7 +52,8 @@ bushy_hair_without_bangs__female = HairStyle(
     components=[
         Component(
             name="hair",
-            hidden_names={"hair_top"}
+            hidden_names={"hair_top"},
+            default_colour=Colour.BLACK
         ),
         Component(
             name="skull",
@@ -57,7 +62,8 @@ bushy_hair_without_bangs__female = HairStyle(
         ),
         Component(
             name="skin",
-            configuration_mode=ComponentConfigurationMode.GLOBAL
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
         ),
     ]
 )
@@ -68,7 +74,8 @@ marty_mcfly = HairStyle(
     components=[
         Component(
             name="hair",
-            hidden_names={"hair_top"}
+            hidden_names={"hair_top"},
+            default_colour=Colour.BLACK
         ),
         Component(
             name="skull",
@@ -77,7 +84,8 @@ marty_mcfly = HairStyle(
         ),
         Component(
             name="skin",
-            configuration_mode=ComponentConfigurationMode.GLOBAL
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
         ),
     ]
 )
@@ -88,7 +96,8 @@ doc_brown = HairStyle(
     components=[
         Component(
             name="hair",
-            hidden_names={"hair_top"}
+            hidden_names={"hair_top"},
+            default_colour=Colour.BLACK
         ),
         Component(
             name="any",
@@ -97,7 +106,8 @@ doc_brown = HairStyle(
         ),
         Component(
             name="skin",
-            configuration_mode=ComponentConfigurationMode.GLOBAL
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
         ),
     ]
 )
@@ -108,11 +118,13 @@ elsa = HairStyle(
     components=[
         Component(
             name="hair",
-            hidden_names={"hair_top"}
+            hidden_names={"hair_top"},
+            default_colour=Colour.BLACK
         ),
         Component(
             name="skin",
-            configuration_mode=ComponentConfigurationMode.GLOBAL
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
         ),
         Component(
             name="any",
@@ -127,7 +139,8 @@ afro = HairStyle(
     components=[
         Component(
             name="hair",
-            hidden_names={"hair_top"}
+            hidden_names={"hair_top"},
+            default_colour=Colour.BLACK
         ),
         Component(
             name="any",
@@ -136,7 +149,8 @@ afro = HairStyle(
         ),
         Component(
             name="skin",
-            configuration_mode=ComponentConfigurationMode.GLOBAL
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
         ),
     ]
 )
@@ -145,8 +159,15 @@ bald = HairStyle(
     source="bald",
     components=[Component(
             name="skin",
-            configuration_mode=ComponentConfigurationMode.GLOBAL
-        ),]
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        ),
+        Component(
+            name="any",
+            configuration_mode=ComponentConfigurationMode.STATIC,
+            default_colour=Colour.LIGHT_BLUISH_GRAY
+        ) 
+        ]
 )
 
 hair_styles = [

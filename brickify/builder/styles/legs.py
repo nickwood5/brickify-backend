@@ -9,17 +9,28 @@ long_pants = LegsStyle(
     source="long_pants",
     components=[
         Component(
-            name="primary"
+            name="primary",
+            default_colour=Colour.DARK_BLUE
         ),
         Component(
-            name="shoes"
+            name="shoes",
+            default_colour=Colour.RED
         )
     ]
 )
 
 short_pants = LegsStyle(
     source="shorts",
-    components = ["primary", "shoes"]
+    components = [
+        Component(
+            name="primary",
+            default_colour=Colour.DARK_BLUE
+        ),
+        Component(
+            name="shoes",
+            default_colour=Colour.DARK_BLUE
+        ),
+    ]
     
 )
 

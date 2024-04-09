@@ -1,9 +1,29 @@
-from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName, StyleOverride, StyleOverrideCondition, StyleOverrideEffect
+from brickify.builder.styles.style_utils import Style, StyleOptions, Component, StyleName, StyleOverride, ComponentConfigurationMode,  StyleOverrideCondition, StyleOverrideEffect, StyleOverrideConditionEffect
+from brickify.builder.colours import Colour
 
 class InnerTopStyle(Style):
     def __init__(self, **kwargs):
         super().__init__(name=StyleName.INNER_TOP, **kwargs)
 
+
+DEFAULT_OVERRIDE = StyleOverride(
+    style_type=StyleName.OUTER_TOP,
+    condition_effects=[
+  
+        StyleOverrideConditionEffect(
+            condition=StyleOverrideCondition.IS,
+            effect=StyleOverrideEffect.DELETE,
+            value={"striped_shirt"}
+        ),
+        StyleOverrideConditionEffect(
+            condition=StyleOverrideCondition.IS_NOT,
+            effect=StyleOverrideEffect.ADD_SUFFIX,
+            value={None},
+            suffix_added="__inner_only"
+        ),
+
+    ]
+)
 
 blank_shirt = InnerTopStyle(
     source="blank_shirt",
@@ -11,6 +31,7 @@ blank_shirt = InnerTopStyle(
     components=[
         Component(
             name="primary",
+            default_colour=Colour.DARK_BLUE
         )
     ]
 )
@@ -21,17 +42,14 @@ striped_shirt = InnerTopStyle(
     components=[
         Component(
             name="stripe_1",
+            default_colour=Colour.DARK_BLUE
         ),
         Component(
             name="stripe_2",
+            default_colour=Colour.RED
         ),
     ],
-    override=StyleOverride(
-        style_type=StyleName.OUTER_TOP,
-        condition=StyleOverrideCondition.IS,
-        effect=StyleOverrideEffect.DELETE,
-        value={"striped_shirt"}
-    )
+    override=DEFAULT_OVERRIDE
 )
 
 thick_and_thin_striped_shirt = InnerTopStyle(
@@ -40,17 +58,14 @@ thick_and_thin_striped_shirt = InnerTopStyle(
     components=[
         Component(
             name="thick_stripe",
+            default_colour=Colour.DARK_BLUE
         ),
         Component(
             name="thin_stripe",
+            default_colour=Colour.RED
         ),
     ],
-    override=StyleOverride(
-        style_type=StyleName.OUTER_TOP,
-        condition=StyleOverrideCondition.IS,
-        effect=StyleOverrideEffect.DELETE,
-        value={"striped_shirt"}
-    )
+    override=DEFAULT_OVERRIDE
     
 )
 
@@ -60,11 +75,18 @@ thick_striped_shirt = InnerTopStyle(
     components=[
         Component(
             name="stripe_1",
+            default_colour=Colour.DARK_BLUE
         ),
         Component(
             name="stripe_2",
+            default_colour=Colour.RED
         ),
-    ]
+        Component(
+            name="skin",
+            default_colour=Colour.LIGHT_BEIGE
+        )
+    ],
+    override=DEFAULT_OVERRIDE
 )
 
 blank_shirt_with_tie = InnerTopStyle(
@@ -73,11 +95,14 @@ blank_shirt_with_tie = InnerTopStyle(
     components=[
         Component(
             name="primary",
+            default_colour=Colour.WHITE
         ),
         Component(
             name="tie",
+            default_colour=Colour.RED
         ),
-    ]
+    ],
+    override=DEFAULT_OVERRIDE
 )
 
 blank_shirt_with_bow_tie = InnerTopStyle(
@@ -86,11 +111,14 @@ blank_shirt_with_bow_tie = InnerTopStyle(
     components=[
         Component(
             name="primary",
+            default_colour=Colour.WHITE
         ),
         Component(
             name="bow_tie",
+            default_colour=Colour.RED
         ),
-    ]
+    ],
+    override=DEFAULT_OVERRIDE
 )
 
 polka_dot_shirt = InnerTopStyle(
@@ -99,11 +127,14 @@ polka_dot_shirt = InnerTopStyle(
     components=[
         Component(
             name="primary",
+            default_colour=Colour.DARK_BLUE
         ),
         Component(
             name="dots",
+            default_colour=Colour.RED
         ),
-    ]
+    ],
+    #override=DEFAULT_OVERRIDE
 )
 
 button_up_shirt = InnerTopStyle(
@@ -111,11 +142,19 @@ button_up_shirt = InnerTopStyle(
     components=[
         Component(
             name="buttons",
+            default_colour=Colour.BLACK
         ),
         Component(
             name="shirt",
+            default_colour=Colour.DARK_BLUE
         ),
-    ]
+        Component(
+            name="skin",
+            configuration_mode=ComponentConfigurationMode.GLOBAL,
+            default_colour=Colour.LIGHT_BEIGE
+        ),
+    ],
+    override=DEFAULT_OVERRIDE
 )
 
 striped_turtleneck = InnerTopStyle(
@@ -124,11 +163,14 @@ striped_turtleneck = InnerTopStyle(
     components=[
         Component(
             name="stripe_1",
+            default_colour=Colour.DARK_BLUE
         ),
         Component(
             name="stripe_2",
+            default_colour=Colour.RED
         ),
-    ]
+    ],
+    #override=DEFAULT_OVERRIDE
 )
 
 striped_crop_top = InnerTopStyle(
@@ -137,11 +179,14 @@ striped_crop_top = InnerTopStyle(
     components=[
         Component(
             name="stripe_1",
+            default_colour=Colour.DARK_BLUE
         ),
         Component(
             name="stripe_2",
+            default_colour=Colour.RED
         ),
-    ]
+    ],
+    ##override=DEFAULT_OVERRIDE
 )
 
 blank_crop_top = InnerTopStyle(
@@ -149,8 +194,10 @@ blank_crop_top = InnerTopStyle(
     components=[
         Component(
             name="crop_top",
+            default_colour=Colour.DARK_BLUE
         ),
-    ]
+    ],
+    override=DEFAULT_OVERRIDE
 )
 
 pocket_blank_shirt = InnerTopStyle(
@@ -159,11 +206,14 @@ pocket_blank_shirt = InnerTopStyle(
     components=[
         Component(
             name="shirt",
+            default_colour=Colour.WHITE
         ),
         Component(
             name="pocket",
+            default_colour=Colour.BLACK
         ),
-    ]
+    ],
+    #override=DEFAULT_OVERRIDE
 )
 
 not_visisble = InnerTopStyle(
